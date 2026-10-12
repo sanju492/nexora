@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NEXORA | Employee Approval</title>
+
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: white;
+
+            background-image:
+                url("/static/images/NEXORA.png");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-attachment: fixed;
+
+            background-repeat: no-repeat;
+
+            padding: 45px;
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .container {
+
+            max-width: 1180px;
+
+            margin: auto;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .header {
+
+            margin-bottom: 30px;
+        }
+
+
+        .brand {
+
+            font-size: 13px;
+
+            letter-spacing: 4px;
+
+            color:
+                rgba(255, 255, 255, 0.75);
+
+            margin-bottom: 12px;
+
+            text-transform: uppercase;
+        }
+
+
+        h1 {
+
+            font-size: 50px;
+
+            font-weight: 400;
+
+            letter-spacing: -2px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .subtitle {
+
+            font-size: 16px;
+
+            color:
+                rgba(255, 255, 255, 0.72);
+        }
+
+
+        /* =========================================
+           SEARCH GLASS
+        ========================================= */
+
+        .search-wrapper {
+
+            margin: 32px 0;
+
+            padding: 8px;
+
+            border-radius: 24px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.28);
+
+            backdrop-filter:
+                blur(14px)
+                saturate(140%);
+
+            -webkit-backdrop-filter:
+                blur(14px)
+                saturate(140%);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.30),
+
+                inset 0 -1px 0
+                rgba(255, 255, 255, 0.08),
+
+                0 18px 45px
+                rgba(0, 0, 0, 0.25);
+        }
+
+
+        .search-form {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+        }
+
+
+        .search-input {
+
+            flex: 1;
+
+            height: 55px;
+
+            padding:
+                0 20px;
+
+            border-radius: 17px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.20);
+
+            outline: none;
+
+            color: white;
+
+            background:
+                rgba(255, 255, 255, 0.09);
+
+            font-size: 15px;
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.15);
+        }
+
+
+        .search-input::placeholder {
+
+            color:
+                rgba(255, 255, 255, 0.60);
+        }
+
+
+        .search-input:focus {
+
+            border-color:
+                rgba(255, 255, 255, 0.45);
+
+            background:
+                rgba(255, 255, 255, 0.13);
+        }
+
+
+        /* =========================================
+           SEARCH BUTTON
+        ========================================= */
+
+        .search-btn {
+
+            height: 55px;
+
+            padding:
+                0 25px;
+
+            border-radius: 17px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.30);
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            background:
+                rgba(255, 255, 255, 0.15);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.30),
+
+                0 8px 20px
+                rgba(0, 0, 0, 0.18);
+
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+
+            transition:
+                0.3s ease;
+        }
+
+
+        .search-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                rgba(255, 255, 255, 0.22);
+        }
+
+
+        /* =========================================
+           CLEAR BUTTON
+        ========================================= */
+
+        .clear-btn {
+
+            height: 55px;
+
+            padding:
+                0 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 17px;
+
+            text-decoration: none;
+
+            color: white;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.22);
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+
+            transition:
+                0.3s ease;
+        }
+
+
+        .clear-btn:hover {
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================
+           SEARCH RESULT
+        ========================================= */
+
+        .result-text {
+
+            margin-bottom: 18px;
+
+            color:
+                rgba(255, 255, 255, 0.70);
+
+            font-size: 14px;
+        }
+
+
+        .result-text strong {
+
+            color: white;
+        }
+
+
+        /* =========================================
+           EMPLOYEE LIQUID GLASS CARD
+        ========================================= */
+
+        .employee-card {
+
+            position: relative;
+
+            margin-bottom: 24px;
+
+            padding: 28px;
+
+            border-radius: 28px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.30);
+
+            backdrop-filter:
+                blur(12px)
+                saturate(140%);
+
+            -webkit-backdrop-filter:
+                blur(12px)
+                saturate(140%);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.32),
+
+                inset 0 -1px 0
+                rgba(255, 255, 255, 0.08),
+
+                0 22px 55px
+                rgba(0, 0, 0, 0.25);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.35s ease,
+                background 0.35s ease,
+                border-color 0.35s ease,
+                box-shadow 0.35s ease;
+        }
+
+
+        /* =========================================
+           GLASS HIGHLIGHT
+        ========================================= */
+
+        .employee-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+
+            left: 8%;
+
+            width: 84%;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.75),
+                    transparent
+                );
+
+            pointer-events: none;
+        }
+
+
+        .employee-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+            border-color:
+                rgba(255, 255, 255, 0.40);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.40),
+
+                0 28px 65px
+                rgba(0, 0, 0, 0.32);
+        }
+
+
+        /* =========================================
+           EMPLOYEE HEADER
+        ========================================= */
+
+        .employee-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .employee-name {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        /* =========================================
+           AVATAR
+        ========================================= */
+
+        .avatar {
+
+            width: 60px;
+
+            height: 60px;
+
+            border-radius: 19px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 22px;
+
+            font-weight: 600;
+
+            color: white;
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.30);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.35),
+
+                0 8px 20px
+                rgba(0, 0, 0, 0.18);
+
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+        }
+
+
+        .name-text h2 {
+
+            font-size: 20px;
+
+            font-weight: 500;
+
+            margin-bottom: 5px;
+        }
+
+
+        .name-text p {
+
+            font-size: 14px;
+
+            color:
+                rgba(255, 255, 255, 0.65);
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status {
+
+            padding:
+                9px 17px;
+
+            border-radius:
+                999px;
+
+            font-size: 13px;
+
+            color:
+                rgba(255, 255, 255, 0.88);
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.25);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.25);
+
+            backdrop-filter:
+                blur(8px);
+
+            -webkit-backdrop-filter:
+                blur(8px);
+        }
+
+
+        /* =========================================
+           EMPLOYEE DETAILS
+        ========================================= */
+
+        .employee-info {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .info-box {
+
+            min-height: 76px;
+
+            padding:
+                15px 17px;
+
+            border-radius: 17px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.18);
+
+            backdrop-filter:
+                blur(8px);
+
+            -webkit-backdrop-filter:
+                blur(8px);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.18);
+        }
+
+
+        .label {
+
+            font-size: 11px;
+
+            color:
+                rgba(255, 255, 255, 0.50);
+
+            margin-bottom: 7px;
+
+            letter-spacing:
+                0.7px;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        .value {
+
+            font-size: 15px;
+
+            font-weight: 500;
+
+            color:
+                rgba(255, 255, 255, 0.94);
+
+            word-break:
+                break-word;
+        }
+
+
+        /* =========================================
+           ACTION BUTTONS
+        ========================================= */
+
+        .actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            align-items: center;
+        }
+
+
+        /* =========================================
+           APPROVE
+        ========================================= */
+
+        .approve-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 48px;
+
+            padding:
+                0 25px;
+
+            border-radius:
+                999px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.32);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.38),
+
+                0 8px 22px
+                rgba(0, 0, 0, 0.18);
+
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+
+            transition:
+                0.3s ease;
+        }
+
+
+        .approve-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                rgba(255, 255, 255, 0.23);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.45),
+
+                0 12px 28px
+                rgba(0, 0, 0, 0.25);
+        }
+
+
+        /* =========================================
+           REJECT
+        ========================================= */
+
+        .reject-btn {
+
+            min-height: 48px;
+
+            padding:
+                0 25px;
+
+            border-radius:
+                999px;
+
+            color:
+                rgba(255, 235, 235, 0.95);
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid
+                rgba(255, 180, 180, 0.35);
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.20),
+
+                0 7px 18px
+                rgba(0, 0, 0, 0.16);
+
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+
+            transition:
+                0.3s ease;
+        }
+
+
+        .reject-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                rgba(255, 90, 90, 0.16);
+
+            border-color:
+                rgba(255, 180, 180, 0.55);
+
+            box-shadow:
+                0 12px 28px
+                rgba(0, 0, 0, 0.25);
+        }
+
+
+        /* =========================================
+           EMPTY
+        ========================================= */
+
+        .empty {
+
+            padding:
+                80px 20px;
+
+            text-align:
+                center;
+
+            border-radius:
+                28px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.25);
+
+            backdrop-filter:
+                blur(12px);
+
+            -webkit-backdrop-filter:
+                blur(12px);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.28),
+
+                0 20px 50px
+                rgba(0, 0, 0, 0.22);
+        }
+
+
+        .empty h2 {
+
+            margin-bottom:
+                10px;
+
+            font-weight:
+                500;
+        }
+
+
+        .empty p {
+
+            color:
+                rgba(255, 255, 255, 0.60);
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media(max-width: 800px) {
+
+            body {
+
+                padding:
+                    22px;
+            }
+
+
+            h1 {
+
+                font-size:
+                    34px;
+
+                letter-spacing:
+                    -1px;
+            }
+
+
+            .search-form {
+
+                flex-direction:
+                    column;
+            }
+
+
+            .search-input,
+            .search-btn,
+            .clear-btn {
+
+                width:
+                    100%;
+            }
+
+
+            .employee-info {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .employee-header {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+                gap:
+                    15px;
+            }
+
+
+            .actions {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    stretch;
+            }
+
+
+            .approve-btn,
+            .reject-btn {
+
+                width:
+                    100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =====================================
+         HEADER
+    ====================================== -->
+
+    <div class="header">
+
+        <div class="brand">
+            NEXORA HRMS • EMPLOYEE APPROVAL
+        </div>
+
+
+        <h1>
+            New Employee Registrations
+        </h1>
+
+
+        <p class="subtitle">
+            Review newly registered employee profiles
+            before granting access to the NEXORA HRMS.
+        </p>
+
+    </div>
+
+
+
+    <!-- =====================================
+         SEARCH
+    ====================================== -->
+
+    <div class="search-wrapper">
+
+        <form
+            method="GET"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search_query }}"
+                class="search-input"
+                placeholder="Search by name, username, email or employee ID..."
+            >
+
+
+            <button
+                type="submit"
+                class="search-btn"
+            >
+
+                🔎 Search
+
+            </button>
+
+
+            {% if search_query %}
+
+                <a
+                    href="{% url 'employee_approvals' %}"
+                    class="clear-btn"
+                >
+
+                    Clear
+
+                </a>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+
+
+    <!-- =====================================
+         SEARCH RESULT
+    ====================================== -->
+
+    {% if search_query %}
+
+        <div class="result-text">
+
+            Search results for:
+
+            <strong>
+                "{{ search_query }}"
+            </strong>
+
+        </div>
+
+    {% endif %}
+
+
+
+    <!-- =====================================
+         EMPLOYEE LIST
+    ====================================== -->
+
+    {% if pending_employees %}
+
+
+        {% for employee in pending_employees %}
+
+
+            <div class="employee-card">
+
+
+                <!-- EMPLOYEE HEADER -->
+
+                <div class="employee-header">
+
+
+                    <div class="employee-name">
+
+
+                        <div class="avatar">
+
+                            {{ employee.user.first_name|first|upper }}
+
+                        </div>
+
+
+                        <div class="name-text">
+
+                            <h2>
+
+                                {{ employee.user.get_full_name }}
+
+                            </h2>
+
+
+                            <p>
+
+                                {{ employee.designation }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="status">
+
+                        Pending Approval
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- EMPLOYEE DETAILS -->
+
+                <div class="employee-info">
+
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Employee ID
+                        </div>
+
+                        <div class="value">
+                            {{ employee.employee_id }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Username
+                        </div>
+
+                        <div class="value">
+                            {{ employee.user.username }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Email
+                        </div>
+
+                        <div class="value">
+                            {{ employee.user.email }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Department
+                        </div>
+
+                        <div class="value">
+
+                            {% if employee.department %}
+
+                                {{ employee.department.name }}
+
+                            {% else %}
+
+                                Not Assigned
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Joining Date
+                        </div>
+
+                        <div class="value">
+
+                            {{ employee.joining_date }}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="label">
+                            Phone
+                        </div>
+
+                        <div class="value">
+
+                            {{ employee.user.phone }}
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ACTION BUTTONS -->
+
+                <div class="actions">
+
+
+                    <!-- REVIEW & APPROVE -->
+
+                    <a
+                        href="{% url 'approve_employee' employee.id %}"
+                        class="approve-btn"
+                    >
+
+                        ✓ Review & Approve →
+
+                    </a>
+
+
+
+                    <!-- REJECT -->
+
+                    <form
+                        method="POST"
+                        action="{% url 'reject_employee' employee.id %}"
+                        onsubmit="
+                            return confirm(
+                                'Are you sure you want to reject this employee registration?'
+                            );
+                        "
+                    >
+
+                        {% csrf_token %}
+
+
+                        <button
+                            type="submit"
+                            class="reject-btn"
+                        >
+
+                            ✕ Reject
+
+                        </button>
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <!-- =====================================
+             EMPTY STATE
+        ====================================== -->
+
+        <div class="empty">
+
+
+            {% if search_query %}
+
+
+                <h2>
+                    No Employee Found
+                </h2>
+
+
+                <p>
+
+                    No pending employee matches
+                    "{{ search_query }}".
+
+                </p>
+
+
+            {% else %}
+
+
+                <h2>
+                    No New Registrations
+                </h2>
+
+
+                <p>
+
+                    There are currently no employees
+                    waiting for approval.
+
+                </p>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>

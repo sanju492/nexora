@@ -1,0 +1,542 @@
+```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | Manager Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #fff;
+            background: #0b0f16;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(rgba(5,10,18,.48), rgba(5,10,18,.75)),
+                url("{% static 'images/NEXORA.png' %}") center/cover no-repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(80,160,255,.12), transparent 35%),
+                radial-gradient(circle at 85% 80%, rgba(150,80,255,.12), transparent 35%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .page {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        .navbar {
+            width: calc(100% - 50px);
+            min-height: 76px;
+            margin: 25px auto 0;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            border-radius: 24px;
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.20);
+            backdrop-filter: blur(25px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            font-size: 20px;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.25);
+        }
+
+        .brand-name {
+            font-size: 19px;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+
+        .workspace {
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,.62);
+        }
+
+        .navbar-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 12px 18px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            border: 1px solid rgba(255,255,255,.22);
+            background: rgba(255,255,255,.10);
+        }
+
+        .admin-button {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+        }
+
+        .dashboard {
+            width: min(1250px, calc(100% - 50px));
+            margin: 65px auto;
+        }
+
+        .welcome {
+            margin-bottom: 38px;
+        }
+
+        .welcome-label {
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,.65);
+            margin-bottom: 15px;
+        }
+
+        .welcome h1 {
+            font-size: clamp(42px, 5vw, 64px);
+            font-weight: 400;
+            letter-spacing: -2px;
+            margin-bottom: 15px;
+        }
+
+        .welcome p {
+            max-width: 720px;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255,255,255,.72);
+        }
+
+        .messages {
+            margin-bottom: 25px;
+        }
+
+        .message {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 16px;
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.18);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+            margin-bottom: 42px;
+        }
+
+        .stat-card {
+            min-height: 140px;
+            padding: 28px;
+            border-radius: 25px;
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.20);
+            backdrop-filter: blur(25px);
+        }
+
+        .stat-number {
+            font-size: 42px;
+            margin-bottom: 13px;
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: rgba(255,255,255,.70);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .operations {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        /* Every operation card is a real clickable link */
+        .operation-link {
+            display: block;
+            min-width: 0;
+            position: relative;
+            z-index: 3;
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 25px;
+            outline-offset: 4px;
+            pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .operation-card {
+            min-height: 220px;
+            height: 100%;
+            padding: 28px;
+            border-radius: 25px;
+            background: rgba(255,255,255,.09);
+            border: 1px solid rgba(255,255,255,.19);
+            backdrop-filter: blur(25px);
+            transition: transform .25s ease, background .25s ease;
+        }
+
+        .operation-link:hover .operation-card {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,.15);
+        }
+
+        .operation-link:focus-visible {
+            outline: 2px solid #67e8f9;
+        }
+
+        .operation-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            font-size: 22px;
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.22);
+            margin-bottom: 22px;
+        }
+
+        .operation-card h3 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .operation-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255,255,255,.70);
+        }
+
+        .operation-arrow {
+            margin-top: 18px;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .approval-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 18px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: rgba(255,255,255,.09);
+            border: 1px solid rgba(255,255,255,.18);
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #67e8f9;
+        }
+
+        .employee-leave {
+            background: linear-gradient(145deg, rgba(14,165,233,.18), rgba(255,255,255,.07));
+            border-color: rgba(56,189,248,.45);
+        }
+
+        .hr-leave {
+            background: linear-gradient(145deg, rgba(168,85,247,.20), rgba(255,255,255,.07));
+            border-color: rgba(192,132,252,.45);
+        }
+
+        .payroll-card {
+            background: linear-gradient(145deg, rgba(34,197,94,.16), rgba(255,255,255,.07));
+            border-color: rgba(74,222,128,.40);
+        }
+
+        .reports-card {
+            background: linear-gradient(145deg, rgba(14,165,233,.18), rgba(255,255,255,.07));
+            border-color: rgba(56,189,248,.40);
+        }
+
+        .admin-card {
+            background: linear-gradient(145deg, rgba(37,99,235,.22), rgba(124,58,237,.12));
+            border-color: rgba(129,140,248,.55);
+        }
+
+        .footer {
+            margin-top: 70px;
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255,255,255,.50);
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 950px) {
+            .stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .operations {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .workspace {
+                display: none;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .navbar {
+                width: calc(100% - 30px);
+                margin-top: 15px;
+                padding: 12px 15px;
+            }
+
+            .dashboard {
+                width: calc(100% - 30px);
+                margin: 45px auto;
+            }
+
+            .stats,
+            .operations {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome h1 {
+                font-size: 40px;
+            }
+
+            .welcome p {
+                font-size: 15px;
+            }
+
+            .brand-name {
+                font-size: 16px;
+                letter-spacing: 2px;
+            }
+
+            .nav-button {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+
+            .stat-card,
+            .operation-card {
+                padding: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background" aria-hidden="true"></div>
+    <div class="overlay" aria-hidden="true"></div>
+
+    <div class="page">
+        <header class="navbar">
+            <a href="{% url 'home' %}" class="brand">
+                <div class="brand-icon">N</div>
+                <div class="brand-name">NEXORA</div>
+            </a>
+
+            <div class="workspace">MANAGER WORKSPACE</div>
+
+            <div class="navbar-actions">
+                <a href="/admin/" class="nav-button admin-button">⚙ Admin Portal</a>
+                <a href="{% url 'home' %}" class="nav-button">Exit</a>
+            </div>
+        </header>
+
+        <main class="dashboard">
+            <section class="welcome">
+                <div class="welcome-label">NEXORA HRMS • MANAGER PORTAL</div>
+                <h1>Manager Dashboard</h1>
+                <p>
+                    Welcome to the NEXORA manager workspace.
+                    Monitor your team, attendance and leave operations
+                    from one place.
+                </p>
+            </section>
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <section class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">{{ employee_count|default:"00" }}</div>
+                    <div class="stat-title">Team Members</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">00</div>
+                    <div class="stat-title">Present Today</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">00</div>
+                    <div class="stat-title">Pending Leaves</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">{{ pending_employees|default:"0" }}</div>
+                    <div class="stat-title">Pending Employee Approvals</div>
+                </div>
+            </section>
+
+            <section>
+                <div class="section-title">Manager Operations</div>
+
+                <div class="operations">
+                    <a href="{% url 'manager_team' %}" class="operation-link">
+                        <div class="operation-card">
+                            <div class="operation-icon">👥</div>
+                            <h3>Team</h3>
+                            <p>View and manage your employees and HR team members.</p>
+                            <div class="operation-arrow">VIEW TEAM →</div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'manager_attendance' %}" class="operation-link">
+                        <div class="operation-card">
+                            <div class="operation-icon">✓</div>
+                            <h3>Attendance</h3>
+                            <p>Monitor employee and HR attendance records.</p>
+                            <div class="operation-arrow">VIEW ATTENDANCE →</div>
+                        </div>
+                    </a>
+
+                    <!-- FIX: Direct URL for employee leave requests -->
+                    <a href="/leaves/manager/"
+                       class="operation-link"
+                       aria-label="Open Employee Leave Requests">
+                        <div class="operation-card employee-leave">
+                            <div class="operation-icon">◷</div>
+                            <h3>Employee Leave Requests</h3>
+                            <p>Review employee leave applications and approve or reject requests.</p>
+                            <div class="operation-arrow">MANAGE EMPLOYEE LEAVE →</div>
+                        </div>
+                    </a>
+
+                    <!-- FIX: Direct URL for HR leave requests -->
+                    <a href="/leaves/manager/hr/"
+                       class="operation-link"
+                       aria-label="Open HR Leave Requests">
+                        <div class="operation-card hr-leave">
+                            <div class="operation-icon">◷</div>
+                            <h3>HR Leave Requests</h3>
+                            <p>Review HR leave applications and approve or reject requests.</p>
+                            <div class="operation-arrow">MANAGE HR LEAVE →</div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'employee_approvals' %}" class="operation-link">
+                        <div class="operation-card">
+                            <div class="operation-icon">✓</div>
+                            <h3>New Employee Registration</h3>
+                            <p>Review newly registered employee accounts and approve them.</p>
+                            <div class="approval-status">
+                                <span class="status-dot"></span>
+                                {{ pending_employees|default:"0" }} Pending
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'hr_approvals' %}" class="operation-link">
+                        <div class="operation-card">
+                            <div class="operation-icon">👤</div>
+                            <h3>New HR Registration</h3>
+                            <p>Review newly registered HR accounts and approve or reject them.</p>
+                            <div class="approval-status">
+                                <span class="status-dot"></span>
+                                {{ pending_hr|default:"0" }} Pending
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'payroll:manager_payroll' %}" class="operation-link">
+                        <div class="operation-card payroll-card">
+                            <div class="operation-icon">₹</div>
+                            <h3>Payroll Management</h3>
+                            <p>Manage employee and HR salaries, allowances and deductions.</p>
+                            <div class="operation-arrow">OPEN MANAGER PAYROLL →</div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'reports:reports_dashboard' %}" class="operation-link">
+                        <div class="operation-card reports-card">
+                            <div class="operation-icon">◈</div>
+                            <h3>Reports &amp; Communication</h3>
+                            <p>View reports received from HR and track reports you have sent.</p>
+                            <div class="operation-arrow">VIEW REPORTS →</div>
+                        </div>
+                    </a>
+
+                    <a href="/admin/" class="operation-link">
+                        <div class="operation-card admin-card">
+                            <div class="operation-icon">⚙</div>
+                            <h3>Admin Portal</h3>
+                            <p>Access Django administration with an authorized administrator account.</p>
+                            <div class="operation-arrow">OPEN ADMIN PORTAL →</div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <div class="footer">NEXORA HRMS • Manager Workspace</div>
+        </main>
+    </div>
+</body>
+</html>
+```

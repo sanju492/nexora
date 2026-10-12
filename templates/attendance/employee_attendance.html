@@ -1,0 +1,1103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NEXORA | My Attendance</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* ================================
+           BACKGROUND
+        ================================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+
+            background-image:
+                url("{% static 'images/NEXORA.png' %}");
+
+            background-size: cover;
+            background-position: center;
+
+            z-index: -2;
+        }
+
+        .background-overlay {
+            position: fixed;
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(5, 15, 30, 0.70),
+                    rgba(10, 25, 45, 0.58)
+                );
+
+            z-index: -1;
+        }
+
+        /* ================================
+           MAIN
+        ================================= */
+
+        .container {
+            min-height: 100vh;
+            padding: 28px 45px 50px;
+        }
+
+        /* ================================
+           NAVBAR
+        ================================= */
+
+        .navbar {
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 22px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.09);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .brand-symbol {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.15);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.25);
+
+            font-size: 18px;
+        }
+
+        .brand-name {
+            font-size: 19px;
+            letter-spacing: 5px;
+            font-weight: 500;
+        }
+
+        .back-button {
+            padding: 10px 17px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.25);
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.3s ease;
+        }
+
+        .back-button:hover {
+            background:
+                rgba(255, 255, 255, 0.22);
+
+            transform: translateY(-2px);
+        }
+
+        /* ================================
+           PAGE HEADER
+        ================================= */
+
+        .page-header {
+            margin-top: 45px;
+            margin-bottom: 30px;
+        }
+
+        .page-header span {
+            font-size: 11px;
+            letter-spacing: 3px;
+
+            color:
+                rgba(255, 255, 255, 0.60);
+        }
+
+        .page-header h1 {
+            margin-top: 10px;
+
+            font-size: 40px;
+            font-weight: 400;
+        }
+
+        .page-header p {
+            margin-top: 10px;
+
+            font-size: 15px;
+
+            color:
+                rgba(255, 255, 255, 0.68);
+        }
+
+        /* ================================
+           EMPLOYEE INFO
+        ================================= */
+
+        .employee-info {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 28px;
+        }
+
+        .info-card {
+            padding: 20px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.09);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.18);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .info-card span {
+            display: block;
+
+            font-size: 10px;
+            letter-spacing: 1.5px;
+
+            color:
+                rgba(255, 255, 255, 0.55);
+
+            margin-bottom: 8px;
+        }
+
+        .info-card strong {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        /* ================================
+           ATTENDANCE OPTIONS
+        ================================= */
+
+        .attendance-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 30px;
+        }
+
+        .attendance-card {
+            padding: 30px;
+
+            border-radius: 25px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+
+            transition: 0.3s ease;
+        }
+
+        .attendance-card:hover {
+            transform: translateY(-4px);
+
+            background:
+                rgba(255, 255, 255, 0.13);
+        }
+
+        /* ================================
+           ATTENDANCE CARD HEADER
+        ================================= */
+
+        .attendance-icon {
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background:
+                rgba(255, 255, 255, 0.13);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.23);
+
+            font-size: 25px;
+
+            margin-bottom: 18px;
+        }
+
+        .attendance-card h2 {
+            font-size: 25px;
+            font-weight: 400;
+
+            margin-bottom: 8px;
+        }
+
+        .attendance-card p {
+            font-size: 13px;
+
+            color:
+                rgba(255, 255, 255, 0.62);
+
+            line-height: 1.5;
+
+            margin-bottom: 25px;
+        }
+
+        /* ================================
+           DATE
+        ================================= */
+
+        .today-label {
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            color:
+                rgba(255, 255, 255, 0.50);
+
+            margin-bottom: 18px;
+        }
+
+        /* ================================
+           BUTTONS
+        ================================= */
+
+        .attendance-buttons {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+        }
+
+        .attendance-button {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 14px 15px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.25);
+
+            background:
+                rgba(255, 255, 255, 0.11);
+
+            color: #ffffff;
+
+            font-size: 13px;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+        .attendance-button:hover {
+            background:
+                rgba(255, 255, 255, 0.22);
+
+            transform: translateY(-2px);
+        }
+
+        .check-in {
+            border-color:
+                rgba(80, 255, 160, 0.35);
+        }
+
+        .check-out {
+            border-color:
+                rgba(255, 100, 100, 0.35);
+        }
+
+        /* ================================
+           CURRENT STATUS
+        ================================= */
+
+        .current-status {
+            margin-top: 18px;
+
+            padding: 13px 15px;
+
+            border-radius: 13px;
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.12);
+
+            font-size: 12px;
+
+            color:
+                rgba(255, 255, 255, 0.65);
+        }
+
+        /* ================================
+           HISTORY
+        ================================= */
+
+        .history-card {
+            padding: 28px;
+
+            border-radius: 24px;
+
+            background:
+                rgba(255, 255, 255, 0.09);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.18);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .history-title {
+            margin-bottom: 20px;
+        }
+
+        .history-title span {
+            font-size: 10px;
+            letter-spacing: 3px;
+
+            color:
+                rgba(255, 255, 255, 0.55);
+        }
+
+        .history-title h2 {
+            margin-top: 7px;
+
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        /* ================================
+           TABLE
+        ================================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        thead th {
+            text-align: left;
+
+            padding: 15px;
+
+            font-size: 10px;
+            letter-spacing: 1.5px;
+
+            color:
+                rgba(255, 255, 255, 0.55);
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        tbody td {
+            padding: 17px 15px;
+
+            font-size: 13px;
+
+            color:
+                rgba(255, 255, 255, 0.82);
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        tbody tr:hover {
+            background:
+                rgba(255, 255, 255, 0.06);
+        }
+
+        .status {
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.20);
+        }
+
+        .work-mode {
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            background:
+                rgba(255, 255, 255, 0.09);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* ================================
+           EMPTY
+        ================================= */
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+
+            color:
+                rgba(255, 255, 255, 0.60);
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 400;
+
+            color: #ffffff;
+
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+        }
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        .footer {
+            margin-top: 35px;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            color:
+                rgba(255, 255, 255, 0.45);
+        }
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 900px) {
+
+            .container {
+                padding: 20px;
+            }
+
+            .employee-info {
+                grid-template-columns: 1fr;
+            }
+
+            .attendance-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .brand-name {
+                font-size: 16px;
+                letter-spacing: 3px;
+            }
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+            .attendance-buttons {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="background"></div>
+
+    <div class="background-overlay"></div>
+
+
+    <div class="container">
+
+
+        <!-- =================================
+             NAVBAR
+        ================================== -->
+
+        <header class="navbar">
+
+            <a
+                href="{% url 'employee_dashboard' %}"
+                class="brand"
+            >
+
+                <div class="brand-symbol">
+                    N
+                </div>
+
+                <div class="brand-name">
+                    NEXORA
+                </div>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_dashboard' %}"
+                class="back-button"
+            >
+                ← Dashboard
+            </a>
+
+        </header>
+
+
+        <!-- =================================
+             PAGE HEADER
+        ================================== -->
+
+        <section class="page-header">
+
+            <span>
+                EMPLOYEE WORKSPACE
+            </span>
+
+            <h1>
+                My Attendance
+            </h1>
+
+            <p>
+                Manage your daily office and work-from-home attendance.
+            </p>
+
+        </section>
+
+
+        <!-- =================================
+             EMPLOYEE INFORMATION
+        ================================== -->
+
+        <section class="employee-info">
+
+
+            <div class="info-card">
+
+                <span>
+                    EMPLOYEE ID
+                </span>
+
+                <strong>
+
+                    {% if employee %}
+
+                        {{ employee.employee_id }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <span>
+                    EMPLOYEE NAME
+                </span>
+
+                <strong>
+
+                    {% if employee %}
+
+                        {{ employee.user.get_full_name|default:employee.user.username }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <span>
+                    DEPARTMENT
+                </span>
+
+                <strong>
+
+                    {% if employee and employee.department %}
+
+                        {{ employee.department.name }}
+
+                    {% else %}
+
+                        Not Assigned
+
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================
+             OFFICE + WFH
+        ================================== -->
+
+        <section class="attendance-grid">
+
+
+            <!-- =================================
+                 OFFICE ATTENDANCE
+            ================================== -->
+
+            <div class="attendance-card">
+
+
+                <div class="attendance-icon">
+                    🏢
+                </div>
+
+
+                <h2>
+                    Office
+                </h2>
+
+
+                <p>
+                    Mark your attendance when you are
+                    working from the NEXORA office.
+                </p>
+
+
+                <div class="today-label">
+                    TODAY'S OFFICE ATTENDANCE
+                </div>
+
+
+                <div class="attendance-buttons">
+
+
+                    <button
+                        type="button"
+                        class="attendance-button check-in"
+                        onclick="alert('Office Check In will be connected next.')"
+                    >
+                        🟢 Check In
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="attendance-button check-out"
+                        onclick="alert('Office Check Out will be connected next.')"
+                    >
+                        🔴 Check Out
+                    </button>
+
+
+                </div>
+
+
+                <div class="current-status">
+                    Office attendance status:
+                    <strong>Not Marked</strong>
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================
+                 WORK FROM HOME
+            ================================== -->
+
+            <div class="attendance-card">
+
+
+                <div class="attendance-icon">
+                    🏠
+                </div>
+
+
+                <h2>
+                    Work From Home
+                </h2>
+
+
+                <p>
+                    Mark your attendance when you are
+                    working remotely from home.
+                </p>
+
+
+                <div class="today-label">
+                    TODAY'S WFH ATTENDANCE
+                </div>
+
+
+                <div class="attendance-buttons">
+
+
+                    <button
+                        type="button"
+                        class="attendance-button check-in"
+                        onclick="alert('WFH Check In will be connected next.')"
+                    >
+                        🟢 Check In
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="attendance-button check-out"
+                        onclick="alert('WFH Check Out will be connected next.')"
+                    >
+                        🔴 Check Out
+                    </button>
+
+
+                </div>
+
+
+                <div class="current-status">
+                    WFH attendance status:
+                    <strong>Not Marked</strong>
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================
+             ATTENDANCE HISTORY
+        ================================== -->
+
+        <section class="history-card">
+
+
+            <div class="history-title">
+
+                <span>
+                    ATTENDANCE RECORDS
+                </span>
+
+                <h2>
+                    Attendance History
+                </h2>
+
+            </div>
+
+
+            {% if attendance_records %}
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    DATE
+                                </th>
+
+                                <th>
+                                    WORK MODE
+                                </th>
+
+                                <th>
+                                    CHECK IN
+                                </th>
+
+                                <th>
+                                    CHECK OUT
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    REMARKS
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            {% for attendance in attendance_records %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ attendance.date|date:"d M Y" }}
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="work-mode">
+
+                                            {{ attendance.get_work_mode_display }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if attendance.check_in %}
+
+                                            {{ attendance.check_in|time:"h:i A" }}
+
+                                        {% else %}
+
+                                            —
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if attendance.check_out %}
+
+                                            {{ attendance.check_out|time:"h:i A" }}
+
+                                        {% else %}
+
+                                            —
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status">
+
+                                            {{ attendance.get_status_display }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if attendance.remarks %}
+
+                                            {{ attendance.remarks }}
+
+                                        {% else %}
+
+                                            —
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ◷
+                    </div>
+
+                    <h3>
+                        No Attendance Records
+                    </h3>
+
+                    <p>
+                        Your daily attendance records will appear here.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+        <!-- =================================
+             FOOTER
+        ================================== -->
+
+        <footer class="footer">
+
+            NEXORA HRMS
+            ·
+            Empowering People. Simplifying Work.
+            ·
+            © 2026
+
+        </footer>
+
+
+    </div>
+
+
+</body>
+
+</html>

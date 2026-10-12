@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | Report Details</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 22px; font-family: "Segoe UI", Arial, sans-serif; color: #edf5ff; background: linear-gradient(135deg,#081225,#123252,#07101f); min-height: 100vh; }
+        main { max-width: 800px; margin: 30px auto; }
+        .panel { background: #ffffff0d; border: 1px solid #ffffff20; border-radius: 16px; padding: 25px; }
+        .brand { color: #67e8f9; font-size: 24px; font-weight: 800; letter-spacing: 2px; }
+        .muted { color: #aabbd3; }
+        .message { margin-top: 22px; padding: 18px; border-radius: 10px; background: #ffffff09; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.7; }
+        .button { display: inline-block; margin: 18px 8px 0 0; padding: 11px 15px; background: #263b54; color: white; border-radius: 9px; text-decoration: none; }
+        .button.primary { background: #0891b2; }
+    </style>
+</head>
+<body>
+<main>
+    <section class="panel">
+        <div class="brand">NEXORA</div>
+        <h1>{{ report.subject }}</h1>
+
+        <p class="muted">
+            From: {{ report.sender.username }}
+        </p>
+        <p class="muted">
+            To: {{ report.receiver.username }}
+        </p>
+        <p class="muted">
+            Date: {{ report.created_at|date:"d M Y, h:i A" }}
+        </p>
+        <p>Status: {{ report.get_status_display }}</p>
+
+        <div class="message">{{ report.message }}</div>
+
+        <a class="button primary" href="{% url 'reports:send_report' %}">Send New Report</a>
+        <a class="button" href="{% url 'reports:inbox_reports' %}">Inbox</a>
+        <a class="button" href="{% url 'reports:sent_reports' %}">Sent Reports</a>
+        <a class="button" href="{% url 'reports:reports_dashboard' %}">Reports Dashboard</a>
+    </section>
+</main>
+</body>
+</html>

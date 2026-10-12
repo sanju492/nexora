@@ -1,0 +1,769 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | My Payroll</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --text: #fff;
+            --muted: rgba(255,255,255,.75);
+            --glass: rgba(255,255,255,.13);
+            --border: rgba(255,255,255,.25);
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+            background: #101827;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            background:
+                url("{% static 'images/NEXORA.png' %}")
+                center / cover no-repeat;
+            transform: scale(1.02);
+        }
+
+        .background::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 12, 23, .42);
+        }
+
+        .glow {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 10% 85%,
+                    rgba(42,190,255,.2), transparent 35%),
+                radial-gradient(circle at 85% 15%,
+                    rgba(167,113,255,.2), transparent 35%);
+        }
+
+        .glass {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(24px) saturate(150%);
+            -webkit-backdrop-filter: blur(24px) saturate(150%);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,.12),
+                0 12px 35px rgba(0,0,0,.12);
+        }
+
+        .page {
+            width: min(1500px, 100%);
+            margin: 0 auto;
+            padding: 22px 36px 30px;
+        }
+
+        /* TOP BAR */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 16px 22px;
+            border-radius: 22px;
+            margin-bottom: 32px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 15px;
+            background: linear-gradient(135deg,#61e6ff,#6485ff,#bd7cff);
+            box-shadow: 0 5px 22px rgba(92,143,255,.3);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .brand h2 {
+            font-size: 20px;
+            letter-spacing: 4px;
+        }
+
+        .brand p {
+            margin-top: 5px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            border-radius: 16px;
+            background: rgba(255,255,255,.10);
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#50dfff,#7775ff);
+            font-size: 18px;
+        }
+
+        .user strong {
+            display: block;
+            font-size: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .user span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border-radius: 13px;
+            color: white;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.25);
+            text-decoration: none;
+            font-size: 12px;
+            transition: .25s ease;
+            white-space: nowrap;
+        }
+
+        .button:hover {
+            background: rgba(255,255,255,.23);
+            transform: translateY(-2px);
+        }
+
+        /* PAGE INTRO */
+        .intro {
+            margin-bottom: 25px;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--muted);
+        }
+
+        .intro h1 {
+            margin-top: 9px;
+            font-size: clamp(30px, 4vw, 42px);
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .intro p {
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .employee-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 17px;
+        }
+
+        .tag {
+            padding: 9px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.19);
+            font-size: 12px;
+        }
+
+        /* PAYROLL BANNER */
+        .payroll-banner {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            overflow: hidden;
+            padding: 25px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+        }
+
+        .payroll-banner::after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            top: -120px;
+            right: -35px;
+            border-radius: 50%;
+            background: rgba(115,165,255,.25);
+            filter: blur(20px);
+            pointer-events: none;
+        }
+
+        .banner-icon {
+            width: 65px;
+            height: 65px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 21px;
+            background: linear-gradient(135deg,#47e0dc,#498bff,#a56bff);
+            box-shadow: 0 8px 25px rgba(80,166,255,.25);
+            font-size: 29px;
+        }
+
+        .payroll-banner h2 {
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .payroll-banner p {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* SUMMARY CARDS */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3,minmax(0,1fr));
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .summary-card {
+            min-width: 0;
+            padding: 23px;
+            border-radius: 23px;
+            transition: .25s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,.19);
+        }
+
+        .summary-top {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .summary-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#4fe0c4,#199eb0);
+            font-size: 22px;
+        }
+
+        .summary-card:nth-child(2) .summary-icon {
+            background: linear-gradient(135deg,#67d8ff,#477cff);
+        }
+
+        .summary-card:nth-child(3) .summary-icon {
+            background: linear-gradient(135deg,#ee9ae9,#8862eb);
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .summary-value {
+            margin-top: 17px;
+            font-size: clamp(23px,2.5vw,31px);
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .summary-note {
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        /* SALARY TABLE */
+        .history {
+            padding: 25px;
+            border-radius: 25px;
+            min-width: 0;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 23px;
+        }
+
+        .history-header h2 {
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        .record-count {
+            padding: 8px 13px;
+            border-radius: 30px;
+            background: rgba(255,255,255,.14);
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 14px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 760px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px 13px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,.13);
+            font-size: 12px;
+        }
+
+        th {
+            background: rgba(255,255,255,.12);
+            color: rgba(255,255,255,.9);
+            white-space: nowrap;
+        }
+
+        td {
+            color: rgba(255,255,255,.95);
+        }
+
+        tbody tr:hover {
+            background: rgba(255,255,255,.07);
+        }
+
+        .amount {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 10px;
+            text-transform: capitalize;
+            white-space: nowrap;
+        }
+
+        .status.paid {
+            color: #c7ffeb;
+            background: rgba(30,210,153,.2);
+            border: 1px solid rgba(93,255,196,.3);
+        }
+
+        .status.pending {
+            color: #ffe9b1;
+            background: rgba(255,181,57,.18);
+            border: 1px solid rgba(255,212,119,.3);
+        }
+
+        .empty-state {
+            padding: 50px 15px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 68px;
+            height: 68px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.22);
+            font-size: 29px;
+        }
+
+        .empty-state h3 {
+            font-size: 19px;
+        }
+
+        .empty-state p {
+            max-width: 470px;
+            margin: 12px auto 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .error-message {
+            padding: 14px 16px;
+            margin-bottom: 18px;
+            border-radius: 14px;
+            background: rgba(255,80,100,.15);
+            border: 1px solid rgba(255,150,160,.3);
+            font-size: 13px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            color: rgba(255,255,255,.7);
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        @media (max-width: 900px) {
+            .page {
+                padding: 18px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 12px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .top-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .user {
+                min-width: 0;
+                flex: 1;
+            }
+
+            .intro h1 {
+                font-size: 29px;
+            }
+
+            .payroll-banner {
+                padding: 17px;
+                gap: 13px;
+            }
+
+            .banner-icon {
+                width: 53px;
+                height: 53px;
+                border-radius: 17px;
+                font-size: 23px;
+            }
+
+            .payroll-banner h2 {
+                font-size: 21px;
+            }
+
+            .summary-card {
+                padding: 19px;
+            }
+
+            .history {
+                padding: 17px;
+            }
+
+            .history-header h2 {
+                font-size: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="glow"></div>
+
+    <main class="page">
+
+        <!-- TOP BAR -->
+        <header class="topbar glass">
+            <div class="brand">
+                <div class="brand-logo">N</div>
+                <div>
+                    <h2>NEXORA</h2>
+                    <p>Empowering People. Simplifying Work.</p>
+                </div>
+            </div>
+
+            <div class="top-actions">
+                <div class="user">
+                    <div class="avatar">♙</div>
+                    <div>
+                        <strong>
+                            {{ request.user.get_full_name|default:request.user.username }}
+                        </strong>
+                        <span>Employee Workspace</span>
+                    </div>
+                </div>
+
+                <a href="{% url 'employee_dashboard' %}" class="button">
+                    ← Dashboard
+                </a>
+            </div>
+        </header>
+
+        <!-- INTRO -->
+        <section class="intro">
+            <span class="eyebrow">EMPLOYEE FINANCE</span>
+
+            <h1>
+                My Payroll
+            </h1>
+
+            <p>
+                View your monthly salary, payment history and deductions.
+            </p>
+
+            <div class="employee-tags">
+                <span class="tag">
+                    Employee:
+                    {{ request.user.get_full_name|default:request.user.username }}
+                </span>
+
+                <span class="tag">
+                    Employee ID:
+                    {% if employee %}
+                        {{ employee.employee_id|default:"—" }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </span>
+
+                <span class="tag">
+                    Department:
+                    {% if employee and employee.department %}
+                        {{ employee.department.name }}
+                    {% else %}
+                        Not Assigned
+                    {% endif %}
+                </span>
+            </div>
+        </section>
+
+        {% if error_message %}
+            <div class="error-message">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        <!-- PAYROLL BANNER -->
+        <section class="payroll-banner glass">
+            <div class="banner-icon">₹</div>
+
+            <div>
+                <h2>Salary Overview</h2>
+                <p>
+                    Your salary details and payment records,
+                    all in one place.
+                </p>
+            </div>
+        </section>
+
+        <!-- SUMMARY CARDS -->
+        <section class="summary-grid">
+
+            <article class="summary-card glass">
+                <div class="summary-top">
+                    <div class="summary-icon">₹</div>
+                    <div class="summary-label">Total Salary Paid</div>
+                </div>
+
+                <div class="summary-value">
+                    ₹{{ total_paid|floatformat:2 }}
+                </div>
+
+                <p class="summary-note">
+                    Total of all payroll records marked as paid.
+                </p>
+            </article>
+
+            <article class="summary-card glass">
+                <div class="summary-top">
+                    <div class="summary-icon">▦</div>
+                    <div class="summary-label">Latest Monthly Salary</div>
+                </div>
+
+                <div class="summary-value">
+                    {% if payroll_records %}
+                        ₹{{ payroll_records.0.net_salary|floatformat:2 }}
+                    {% else %}
+                        ₹0.00
+                    {% endif %}
+                </div>
+
+                <p class="summary-note">
+                    Net salary in your latest payroll record.
+                </p>
+            </article>
+
+            <article class="summary-card glass">
+                <div class="summary-top">
+                    <div class="summary-icon">◷</div>
+                    <div class="summary-label">Pending Salary</div>
+                </div>
+
+                <div class="summary-value">
+                    ₹{{ pending_total|floatformat:2 }}
+                </div>
+
+                <p class="summary-note">
+                    Total salary awaiting payment.
+                </p>
+            </article>
+
+        </section>
+
+        <!-- MONTHLY SALARY HISTORY -->
+        <section class="history glass">
+
+            <div class="history-header">
+                <h2>▤ &nbsp; Monthly Salary History</h2>
+
+                <span class="record-count">
+                    {{ payroll_records|length }} Records
+                </span>
+            </div>
+
+            {% if payroll_records %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Basic Salary</th>
+                                <th>Allowances</th>
+                                <th>Deductions</th>
+                                <th>Net Salary</th>
+                                <th>Status</th>
+                                <th>Paid On</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for record in payroll_records %}
+                                <tr>
+                                    <td>{{ record.month|date:"F Y" }}</td>
+
+                                    <td class="amount">
+                                        ₹{{ record.basic_salary|floatformat:2 }}
+                                    </td>
+
+                                    <td class="amount">
+                                        ₹{{ record.allowances|floatformat:2 }}
+                                    </td>
+
+                                    <td class="amount">
+                                        ₹{{ record.deductions|floatformat:2 }}
+                                    </td>
+
+                                    <td class="amount">
+                                        ₹{{ record.net_salary|floatformat:2 }}
+                                    </td>
+
+                                    <td>
+                                        <span class="status {{ record.payment_status }}">
+                                            {{ record.get_payment_status_display }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {% if record.paid_on %}
+                                            {{ record.paid_on|date:"d M Y" }}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">▤</div>
+
+                    <h3>No Salary Records Yet</h3>
+
+                    <p>
+                        Your monthly payroll records haven't been added yet.
+                        Please contact your HR team for salary details.
+                    </p>
+                </div>
+            {% endif %}
+
+        </section>
+
+        <footer class="footer">
+            NEXORA HRMS · Empowering People. Simplifying Work.
+            <br>
+            © 2026 NEXORA. All rights reserved.
+        </footer>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | Inbox</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 22px; font-family: "Segoe UI", Arial, sans-serif; color: #edf5ff; background: linear-gradient(135deg,#081225,#123252,#07101f); min-height: 100vh; }
+        main { max-width: 1000px; margin: 25px auto; }
+        .panel { background: #ffffff0d; border: 1px solid #ffffff20; border-radius: 16px; padding: 22px; }
+        .brand { color: #67e8f9; font-size: 24px; font-weight: 800; letter-spacing: 2px; }
+        .muted { color: #aabbd3; }
+        .button { display: inline-block; margin: 15px 8px 15px 0; padding: 11px 15px; background: #263b54; color: white; border-radius: 9px; text-decoration: none; }
+        .report { padding: 16px 0; border-bottom: 1px solid #ffffff20; }
+        .report:last-child { border-bottom: 0; }
+        .report a { color: #67e8f9; text-decoration: none; font-weight: 700; }
+    </style>
+</head>
+<body>
+<main>
+    <div class="brand">NEXORA</div>
+    <h1>Inbox</h1>
+    <p class="muted">Reports sent to you.</p>
+
+    <a class="button" href="{% url 'reports:reports_dashboard' %}">Back to Reports</a>
+
+    <section class="panel">
+        {% for report in reports %}
+            <div class="report">
+                <a href="{% url 'reports:report_detail' report.id %}">{{ report.subject }}</a>
+                <p class="muted">From: {{ report.sender.username }}</p>
+                <p class="muted">{{ report.created_at|date:"d M Y, h:i A" }}</p>
+                <p>Status: {{ report.get_status_display }}</p>
+            </div>
+        {% empty %}
+            <p class="muted">Your inbox is empty.</p>
+        {% endfor %}
+    </section>
+</main>
+</body>
+</html>

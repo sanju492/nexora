@@ -1,0 +1,779 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NEXORA | Employee Login</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Display",
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: #ffffff;
+
+            overflow-x: hidden;
+
+            background: #111111;
+        }
+
+
+        /* =========================================
+           BACKGROUND
+        ========================================= */
+
+        .background {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background-image:
+                url("{% static 'images/NEXORA.png' %}");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-repeat: no-repeat;
+
+            z-index: 0;
+        }
+
+
+        .background::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(0, 0, 0, 0.45),
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.42)
+                );
+        }
+
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .page {
+
+            position: relative;
+
+            z-index: 2;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 40px 20px;
+        }
+
+
+        /* =========================================
+           TOP BRAND
+        ========================================= */
+
+        .top-brand {
+
+            position: fixed;
+
+            top: 25px;
+            left: 35px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            z-index: 10;
+
+            text-decoration: none;
+
+            color: #ffffff;
+        }
+
+
+        .brand-symbol {
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.13);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.35);
+
+            backdrop-filter: blur(20px);
+
+            -webkit-backdrop-filter: blur(20px);
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            box-shadow:
+                inset 0 1px
+                rgba(255, 255, 255, 0.35);
+        }
+
+
+        .brand-name {
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            letter-spacing: 4px;
+        }
+
+
+        /* =========================================
+           LOGIN CONTAINER
+        ========================================= */
+
+        .login-wrapper {
+
+            width: 100%;
+
+            max-width: 500px;
+
+            text-align: center;
+        }
+
+
+        .login-label {
+
+            font-size: 13px;
+
+            letter-spacing: 3px;
+
+            color:
+                rgba(255, 255, 255, 0.80);
+
+            margin-bottom: 16px;
+        }
+
+
+        .login-title {
+
+            font-size:
+                clamp(50px, 7vw, 72px);
+
+            line-height: 1;
+
+            font-weight: 300;
+
+            letter-spacing: -3px;
+
+            text-shadow:
+                0 5px 25px
+                rgba(0, 0, 0, 0.4);
+        }
+
+
+        .login-title span {
+
+            font-weight: 600;
+        }
+
+
+        .login-subtitle {
+
+            margin-top: 18px;
+
+            font-size: 17px;
+
+            line-height: 1.6;
+
+            color:
+                rgba(255, 255, 255, 0.80);
+        }
+
+
+        /* =========================================
+           LOGIN CARD
+        ========================================= */
+
+        .login-card {
+
+            margin-top: 38px;
+
+            padding: 38px;
+
+            text-align: left;
+
+            border-radius: 28px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.24);
+
+            backdrop-filter:
+                blur(25px)
+                saturate(160%);
+
+            -webkit-backdrop-filter:
+                blur(25px)
+                saturate(160%);
+
+            box-shadow:
+                0 25px 70px
+                rgba(0, 0, 0, 0.28),
+
+                inset 0 1px
+                rgba(255, 255, 255, 0.22);
+        }
+
+
+        /* =========================================
+           DJANGO MESSAGE
+        ========================================= */
+
+        .message {
+
+            padding: 14px 16px;
+
+            margin-bottom: 20px;
+
+            border-radius: 13px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.18);
+
+            color:
+                rgba(255, 255, 255, 0.95);
+        }
+
+
+        /* =========================================
+           FORM
+        ========================================= */
+
+        .form-group {
+
+            margin-bottom: 23px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 9px;
+
+            font-size: 14px;
+
+            letter-spacing: 1.2px;
+
+            color:
+                rgba(255, 255, 255, 0.82);
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            height: 58px;
+
+            padding: 0 18px;
+
+            border-radius: 15px;
+
+            outline: none;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.22);
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            color: #ffffff;
+
+            font-size: 17px;
+
+            transition: 0.25s ease;
+        }
+
+
+        .form-group input::placeholder {
+
+            color:
+                rgba(255, 255, 255, 0.45);
+        }
+
+
+        .form-group input:focus {
+
+            border-color:
+                rgba(255, 255, 255, 0.55);
+
+            background:
+                rgba(255, 255, 255, 0.11);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(255, 255, 255, 0.06);
+        }
+
+
+        /* =========================================
+           LIQUID GLASS LOGIN BUTTON
+        ========================================= */
+
+        .login-button {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 58px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.42);
+
+            border-radius: 999px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.27),
+                    rgba(255, 255, 255, 0.08)
+                );
+
+            color: #ffffff;
+
+            font-size: 17px;
+
+            font-weight: 500;
+
+            letter-spacing: 0.5px;
+
+            cursor: pointer;
+
+            overflow: hidden;
+
+            backdrop-filter:
+                blur(22px)
+                saturate(180%);
+
+            -webkit-backdrop-filter:
+                blur(22px)
+                saturate(180%);
+
+            box-shadow:
+                inset 0 1px
+                rgba(255, 255, 255, 0.50),
+
+                0 10px 30px
+                rgba(0, 0, 0, 0.20);
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease;
+        }
+
+
+        .login-button::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+
+            left: -120%;
+
+            width: 75%;
+
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.35),
+                    transparent
+                );
+
+            transform: skewX(-20deg);
+
+            transition: 0.7s ease;
+        }
+
+
+        .login-button:hover::before {
+
+            left: 140%;
+        }
+
+
+        .login-button:hover {
+
+            transform: translateY(-2px);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.35),
+                    rgba(255, 255, 255, 0.12)
+                );
+        }
+
+
+        .login-button:active {
+
+            transform: scale(0.98);
+        }
+
+
+        /* =========================================
+           REGISTER
+        ========================================= */
+
+        .register-area {
+
+            margin-top: 28px;
+
+            text-align: center;
+
+            color:
+                rgba(255, 255, 255, 0.72);
+
+            font-size: 15px;
+
+            line-height: 1.6;
+        }
+
+
+        .register-area a {
+
+            display: inline-block;
+
+            margin-top: 7px;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.5);
+
+            padding-bottom: 3px;
+        }
+
+
+        /* =========================================
+           BACK HOME
+        ========================================= */
+
+        .back-home {
+
+            display: inline-block;
+
+            margin-top: 27px;
+
+            color:
+                rgba(255, 255, 255, 0.72);
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            letter-spacing: 0.5px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .back-home:hover {
+
+            color: #ffffff;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 600px) {
+
+            .top-brand {
+
+                top: 18px;
+
+                left: 20px;
+            }
+
+
+            .page {
+
+                padding:
+                    90px 18px 30px;
+            }
+
+
+            .login-card {
+
+                padding: 27px;
+
+                border-radius: 23px;
+            }
+
+
+            .login-title {
+
+                font-size: 50px;
+            }
+
+
+            .login-subtitle {
+
+                font-size: 15px;
+            }
+
+
+            .form-group input {
+
+                height: 55px;
+
+                font-size: 16px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- BACKGROUND -->
+
+    <div class="background"></div>
+
+
+    <!-- BRAND -->
+
+    <a href="{% url 'home' %}"
+       class="top-brand">
+
+        <div class="brand-symbol">
+            N
+        </div>
+
+        <div class="brand-name">
+            NEXORA
+        </div>
+
+    </a>
+
+
+    <!-- PAGE -->
+
+    <main class="page">
+
+        <div class="login-wrapper">
+
+
+            <div class="login-label">
+                EMPLOYEE PORTAL
+            </div>
+
+
+            <h1 class="login-title">
+
+                Welcome
+                <span>Back.</span>
+
+            </h1>
+
+
+            <p class="login-subtitle">
+
+                Sign in to access your NEXORA
+                employee workspace.
+
+            </p>
+
+
+            <!-- LOGIN CARD -->
+
+            <div class="login-card">
+
+
+                <!-- DJANGO MESSAGES -->
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div class="message">
+
+                            {{ message }}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+                <!-- LOGIN FORM -->
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            USERNAME
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            PASSWORD
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="login-button">
+
+                        Sign In to NEXORA
+
+                    </button>
+
+                </form>
+
+
+                <!-- REGISTER -->
+
+                <div class="register-area">
+
+                    Don't have an employee account?
+
+                    <br>
+
+                    <a href="{% url 'employee_register' %}">
+                        Create Employee Account
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+            <a href="{% url 'home' %}"
+               class="back-home">
+
+                ← Back to NEXORA
+
+            </a>
+
+
+        </div>
+
+    </main>
+
+
+</body>
+
+</html>

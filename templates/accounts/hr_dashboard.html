@@ -1,0 +1,475 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | HR Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            color: white;
+            background: url("{% static 'images/NEXORA.png' %}") center / cover fixed no-repeat;
+            padding: 35px;
+        }
+
+        .container {
+            width: min(1250px, 100%);
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .brand {
+            font-size: 13px;
+            letter-spacing: 5px;
+            color: rgba(255,255,255,.65);
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 38px;
+            font-weight: 500;
+            letter-spacing: -1px;
+        }
+
+        .welcome {
+            margin-top: 8px;
+            color: rgba(255,255,255,.72);
+            font-size: 15px;
+        }
+
+        .profile-box {
+            padding: 14px 20px;
+            border-radius: 18px;
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.20);
+            backdrop-filter: blur(20px);
+            text-align: right;
+        }
+
+        .profile-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .profile-role {
+            margin-top: 4px;
+            font-size: 12px;
+            color: rgba(255,255,255,.7);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .summary-card {
+            padding: 22px;
+            border-radius: 24px;
+            background: rgba(255,255,255,.09);
+            border: 1px solid rgba(255,255,255,.18);
+            backdrop-filter: blur(24px);
+            box-shadow: 0 20px 50px rgba(0,0,0,.18);
+            transition: .3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,.13);
+        }
+
+        .summary-icon,
+        .module-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.18);
+        }
+
+        .summary-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
+            font-size: 20px;
+            margin-bottom: 18px;
+        }
+
+        .summary-title {
+            font-size: 13px;
+            color: rgba(255,255,255,.7);
+            margin-bottom: 7px;
+        }
+
+        .summary-value {
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 21px;
+            font-weight: 500;
+            margin-bottom: 18px;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            min-height: 190px;
+            padding: 25px;
+            border-radius: 26px;
+            background: rgba(255,255,255,.09);
+            border: 1px solid rgba(255,255,255,.18);
+            backdrop-filter: blur(25px) saturate(140%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.15),
+                        0 20px 60px rgba(0,0,0,.20);
+            transition: transform .3s ease, background .3s ease;
+            text-decoration: none;
+            color: white;
+            display: block;
+            cursor: pointer;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,.16);
+        }
+
+        .module-card:focus-visible,
+        .logout-btn:focus-visible {
+            outline: 2px solid #7dd3fc;
+            outline-offset: 4px;
+        }
+
+        .module-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 18px;
+            font-size: 23px;
+            margin-bottom: 20px;
+        }
+
+        .module-card h3 {
+            font-size: 19px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .module-card p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: rgba(255,255,255,.72);
+        }
+
+        .module-arrow {
+            margin-top: 18px;
+            font-size: 13px;
+            color: rgba(255,255,255,.9);
+        }
+
+        .profile-section {
+            margin-top: 35px;
+            padding: 25px;
+            border-radius: 26px;
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.17);
+            backdrop-filter: blur(25px);
+        }
+
+        .profile-section h2 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .profile-item {
+            padding: 15px;
+            border-radius: 16px;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.10);
+            overflow-wrap: anywhere;
+        }
+
+        .profile-label {
+            display: block;
+            font-size: 12px;
+            color: rgba(255,255,255,.7);
+            margin-bottom: 6px;
+        }
+
+        .profile-value {
+            font-size: 14px;
+            color: rgba(255,255,255,.95);
+        }
+
+        .logout-area {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            display: inline-block;
+            padding: 13px 28px;
+            border-radius: 999px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.18);
+            backdrop-filter: blur(20px);
+            transition: .25s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,.16);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 1000px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .module-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 20px;
+                background-attachment: scroll;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .profile-box {
+                text-align: left;
+                width: 100%;
+            }
+
+            .summary-grid,
+            .module-grid,
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div>
+            <div class="brand">NEXORA HRMS</div>
+            <h1>HR Dashboard</h1>
+
+            <p class="welcome">
+                Welcome,
+                {% if employee and employee.user.get_full_name %}
+                    {{ employee.user.get_full_name }}
+                {% else %}
+                    {{ request.user.get_full_name|default:request.user.username }}
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="profile-box">
+            <div class="profile-name">
+                {{ request.user.get_full_name|default:request.user.username }}
+            </div>
+            <div class="profile-role">Human Resources</div>
+        </div>
+    </header>
+
+    <!-- SUMMARY CARDS -->
+    <section class="summary-grid">
+
+        <div class="summary-card">
+            <div class="summary-icon">👥</div>
+            <div class="summary-title">Total Employees</div>
+            <div class="summary-value">
+                {{ total_employees|default:"0" }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">🕒</div>
+            <div class="summary-title">Today's Attendance</div>
+            <div class="summary-value">
+                {{ today_attendance|default:"0" }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">📝</div>
+            <div class="summary-title">Pending Leaves</div>
+            <div class="summary-value">
+                {{ pending_leaves|default:"0" }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">💰</div>
+            <div class="summary-title">Payroll Records</div>
+            <div class="summary-value">
+                {{ total_payroll_records|default:"0" }}
+            </div>
+        </div>
+
+    </section>
+
+    <!-- HR OPERATIONS -->
+    <h2 class="section-title">HR Operations</h2>
+
+    <section class="module-grid">
+
+        <!-- EMPLOYEES -->
+        <a href="{% url 'employees:hr_employee_list' %}"
+           class="module-card">
+            <div class="module-icon">👥</div>
+            <h3>Employees</h3>
+            <p>View employee profiles, IDs, departments, designations and joining dates.</p>
+            <div class="module-arrow">Manage Employees →</div>
+        </a>
+
+        <!-- ATTENDANCE -->
+        <a href="{% url 'hr_attendance' %}" class="module-card">
+            <div class="module-icon">🕒</div>
+            <h3>Attendance</h3>
+            <p>Monitor employee attendance and check-in/check-out records.</p>
+            <div class="module-arrow">View Attendance →</div>
+        </a>
+
+        <!-- LEAVE REQUESTS -->
+        <a href="{% url 'hr_leave_requests' %}" class="module-card">
+            <div class="module-icon">📝</div>
+            <h3>Leave Requests</h3>
+            <p>Review employee leave requests and approval status.</p>
+            <div class="module-arrow">Manage Leaves →</div>
+        </a>
+
+        <!-- PAYROLL -->
+        <a href="{% url 'payroll:hr_payroll' %}" class="module-card">
+            <div class="module-icon">₹</div>
+            <h3>Payroll</h3>
+            <p>View salary records, deductions, allowances and payment status.</p>
+            <div class="module-arrow">View Payroll →</div>
+        </a>
+
+        <!-- EMPLOYEE DOCUMENTS -->
+        <a href="{% url 'documents:hr_documents' %}" class="module-card">
+            <div class="module-icon">📄</div>
+            <h3>Employee Documents</h3>
+            <p>Review employee-uploaded documents and their submission status.</p>
+            <div class="module-arrow">View Documents →</div>
+        </a>
+
+        <!-- REPORTS -->
+        <a href="{% url 'reports:reports_dashboard' %}" class="module-card">
+            <div class="module-icon">📊</div>
+            <h3>Reports</h3>
+            <p>View HR statistics, send reports, and access received and sent reports.</p>
+            <div class="module-arrow">View Reports →</div>
+        </a>
+
+    </section>
+
+    <!-- HR PROFILE DETAILS -->
+    {% if employee %}
+    <section class="profile-section">
+        <h2>My HR Profile</h2>
+
+        <div class="profile-grid">
+            <div class="profile-item">
+                <span class="profile-label">HR ID</span>
+                <span class="profile-value">
+                    {{ employee.employee_id|default:"—" }}
+                </span>
+            </div>
+
+            <div class="profile-item">
+                <span class="profile-label">Name</span>
+                <span class="profile-value">
+                    {{ employee.user.get_full_name|default:"—" }}
+                </span>
+            </div>
+
+            <div class="profile-item">
+                <span class="profile-label">Username</span>
+                <span class="profile-value">
+                    {{ employee.user.username|default:"—" }}
+                </span>
+            </div>
+
+            <div class="profile-item">
+                <span class="profile-label">Email</span>
+                <span class="profile-value">
+                    {{ employee.user.email|default:"—" }}
+                </span>
+            </div>
+
+            <div class="profile-item">
+                <span class="profile-label">Designation</span>
+                <span class="profile-value">
+                    {{ employee.designation|default:"—" }}
+                </span>
+            </div>
+
+            <div class="profile-item">
+                <span class="profile-label">Joining Date</span>
+                <span class="profile-value">
+                    {{ employee.joining_date|default:"—" }}
+                </span>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- BACK TO HOME -->
+    <div class="logout-area">
+        <a href="{% url 'home' %}" class="logout-btn">
+            ← Back to NEXORA
+        </a>
+    </div>
+
+</div>
+</body>
+</html>

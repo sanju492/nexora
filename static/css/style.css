@@ -1,0 +1,1248 @@
+/* =========================================================
+   NEXORA HRMS
+   CLEAN DESIGN + LIQUID GLASS BUTTONS ONLY
+========================================================= */
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: #ffffff;
+
+    overflow-x: hidden;
+
+    background: #111111;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.nexora-home {
+    position: relative;
+
+    min-height: 100vh;
+
+    background: transparent !important;
+
+    isolation: auto !important;
+}
+
+
+/* =========================================================
+   FIXED BACKGROUND
+========================================================= */
+
+.page-background {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+
+/* VERY LIGHT OVERLAY */
+
+.page-background::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,0.16),
+            rgba(0,0,0,0.04) 45%,
+            rgba(0,0,0,0.18)
+        );
+}
+
+
+/* =========================================================
+   CONTENT LAYER
+========================================================= */
+
+.navbar,
+main,
+footer {
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+section {
+
+    background: transparent !important;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+
+    position: fixed;
+
+    top: 20px;
+    left: 4%;
+    right: 4%;
+
+    height: 68px;
+
+    padding: 0 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    z-index: 50;
+
+    border-radius: 40px;
+
+    /* ONLY NAVBAR GLASS */
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.15),
+            rgba(255,255,255,0.055)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.30);
+
+    backdrop-filter:
+        blur(25px)
+        saturate(160%);
+
+    -webkit-backdrop-filter:
+        blur(25px)
+        saturate(160%);
+
+    box-shadow:
+        inset 0 1px 1px
+        rgba(255,255,255,0.35),
+
+        0 15px 45px
+        rgba(0,0,0,0.18);
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: white;
+
+    text-decoration: none;
+}
+
+
+.brand-symbol {
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        rgba(255,255,255,0.15);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.35);
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+
+.brand-name {
+
+    font-size: 15px;
+
+    letter-spacing: 4px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.desktop-nav {
+
+    display: flex;
+
+    gap: 35px;
+}
+
+
+.desktop-nav a {
+
+    color:
+        rgba(255,255,255,0.88);
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition: 0.25s ease;
+}
+
+
+.desktop-nav a:hover {
+
+    color: #ffffff;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   LIQUID GLASS BUTTON
+   THIS IS THE MAIN EFFECT
+========================================================= */
+
+.glass-button {
+
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    border-radius: 999px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.38);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.22),
+            rgba(255,255,255,0.07)
+        );
+
+    backdrop-filter:
+        blur(22px)
+        saturate(180%);
+
+    -webkit-backdrop-filter:
+        blur(22px)
+        saturate(180%);
+
+    box-shadow:
+
+        inset 0 1px 1px
+        rgba(255,255,255,0.45),
+
+        inset 0 -1px 1px
+        rgba(255,255,255,0.08),
+
+        0 8px 25px
+        rgba(0,0,0,0.15);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* LIQUID SHINE */
+
+.glass-button::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 80%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            110deg,
+            transparent,
+            rgba(255,255,255,0.35),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition: 0.7s ease;
+
+    pointer-events: none;
+}
+
+
+.glass-button:hover::before {
+
+    left: 140%;
+}
+
+
+.glass-button:hover {
+
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.32),
+            rgba(255,255,255,0.10)
+        );
+
+    box-shadow:
+
+        inset 0 1px 1px
+        rgba(255,255,255,0.55),
+
+        0 12px 35px
+        rgba(0,0,0,0.22);
+}
+
+
+.glass-button:active {
+
+    transform: scale(0.97);
+}
+
+
+/* =========================================================
+   NAV BUTTONS
+========================================================= */
+
+.nav-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.small-button {
+
+    padding: 10px 18px;
+
+    font-size: 12px;
+}
+
+
+.primary-button {
+
+    padding: 11px 20px;
+
+    font-size: 12px;
+
+    background:
+        rgba(255,255,255,0.28);
+
+    color: #111111;
+
+    font-weight: 600;
+}
+
+
+.primary-button:hover {
+
+    color: #111111;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+
+    min-height: 100vh;
+
+    padding:
+        170px
+        6vw
+        45px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    background: transparent !important;
+}
+
+
+.hero-content {
+
+    max-width: 720px;
+
+    margin-top: 70px;
+}
+
+
+.hero-label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 25px;
+
+    color:
+        rgba(255,255,255,0.86);
+}
+
+
+.label-dot {
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   NORMAL TEXT
+========================================================= */
+
+.hero h1 {
+
+    font-size:
+        clamp(52px, 7vw, 96px);
+
+    line-height: 0.98;
+
+    font-weight: 300;
+
+    letter-spacing: -4px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 4px 25px
+        rgba(0,0,0,0.35);
+}
+
+
+.hero h1 span {
+
+    font-weight: 500;
+}
+
+
+.hero p {
+
+    max-width: 550px;
+
+    margin-top: 25px;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+
+    color:
+        rgba(255,255,255,0.85);
+}
+
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
+
+.hero-buttons {
+
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 32px;
+}
+
+
+.hero-button {
+
+    padding: 15px 23px;
+
+    font-size: 13px;
+}
+
+
+.secondary-button {
+
+    padding: 15px 23px;
+
+    font-size: 13px;
+
+    background:
+        rgba(255,255,255,0.09);
+}
+
+
+.arrow {
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   HERO BOTTOM
+========================================================= */
+
+.hero-bottom {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    align-items: center;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,0.30);
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+    color:
+        rgba(255,255,255,0.78);
+}
+
+
+.scroll-text {
+
+    text-align: center;
+}
+
+
+.version {
+
+    text-align: right;
+}
+
+
+.bottom-dot {
+
+    display: inline-block;
+
+    width: 5px;
+    height: 5px;
+
+    margin-right: 7px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   ROLES
+========================================================= */
+
+.roles-section {
+
+    min-height: 100vh;
+
+    padding:
+        120px
+        6vw;
+
+    background: transparent !important;
+}
+
+
+.section-heading {
+
+    max-width: 700px;
+
+    margin-bottom: 55px;
+}
+
+
+.section-heading > span {
+
+    display: block;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 18px;
+
+    color:
+        rgba(255,255,255,0.75);
+}
+
+
+.section-heading h2 {
+
+    font-size:
+        clamp(45px, 6vw, 78px);
+
+    line-height: 1;
+
+    font-weight: 300;
+
+    letter-spacing: -3px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 4px 25px
+        rgba(0,0,0,0.35);
+}
+
+
+.section-heading p {
+
+    margin-top: 20px;
+
+    font-size: 15px;
+
+    color:
+        rgba(255,255,255,0.80);
+}
+
+
+/* =========================================================
+   ROLE CARDS
+   NORMAL — NOT LIQUID GLASS
+========================================================= */
+
+.role-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+
+.role-card {
+
+    min-height: 400px;
+
+    padding: 30px;
+
+    border-radius: 25px;
+
+    /* VERY LIGHT NORMAL PANEL */
+
+    background:
+        rgba(0,0,0,0.18);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.18);
+
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,0.12);
+}
+
+
+.role-number {
+
+    font-size: 11px;
+
+    color:
+        rgba(255,255,255,0.65);
+}
+
+
+.role-icon {
+
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 35px;
+
+    border-radius: 16px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.25);
+
+    background:
+        rgba(255,255,255,0.07);
+
+    font-size: 22px;
+}
+
+
+.role-content {
+
+    margin-top: 30px;
+}
+
+
+.role-content > span {
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color:
+        rgba(255,255,255,0.65);
+}
+
+
+.role-content h3 {
+
+    margin-top: 8px;
+
+    font-size: 29px;
+
+    font-weight: 400;
+}
+
+
+.role-content p {
+
+    margin-top: 12px;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    color:
+        rgba(255,255,255,0.72);
+}
+
+
+.role-actions {
+
+    margin-top: 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+
+.card-button {
+
+    padding: 10px 16px;
+
+    font-size: 12px;
+}
+
+
+.normal-link {
+
+    color:
+        rgba(255,255,255,0.72);
+
+    text-decoration: none;
+
+    font-size: 11px;
+}
+
+
+.manager-note {
+
+    font-size: 10px;
+
+    color:
+        rgba(255,255,255,0.45);
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.features-section {
+
+    min-height: 100vh;
+
+    padding:
+        120px
+        6vw;
+
+    background: transparent !important;
+}
+
+
+.feature-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+
+.feature-card {
+
+    min-height: 250px;
+
+    padding: 30px;
+
+    border-radius: 22px;
+
+    background:
+        rgba(0,0,0,0.17);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.17);
+}
+
+
+.feature-number {
+
+    font-size: 11px;
+
+    color:
+        rgba(255,255,255,0.55);
+}
+
+
+.feature-card h3 {
+
+    margin-top: 55px;
+
+    font-size: 22px;
+
+    font-weight: 400;
+}
+
+
+.feature-card p {
+
+    margin-top: 12px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    color:
+        rgba(255,255,255,0.68);
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-section {
+
+    min-height: 75vh;
+
+    padding:
+        120px
+        6vw;
+
+    background: transparent !important;
+}
+
+
+.about-content {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 80px;
+
+    padding: 60px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(0,0,0,0.18);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.18);
+}
+
+
+.about-left > span {
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    color:
+        rgba(255,255,255,0.65);
+}
+
+
+.about-left h2 {
+
+    margin-top: 20px;
+
+    font-size:
+        clamp(40px, 5vw, 68px);
+
+    font-weight: 300;
+
+    line-height: 1;
+
+    letter-spacing: -3px;
+}
+
+
+.about-right {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+
+.about-right p {
+
+    font-size: 17px;
+
+    line-height: 1.8;
+
+    color:
+        rgba(255,255,255,0.75);
+}
+
+
+.about-button {
+
+    width: fit-content;
+
+    margin-top: 25px;
+
+    padding: 13px 20px;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    position: relative;
+
+    z-index: 2;
+
+    padding:
+        40px 6vw;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    align-items: center;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,0.20);
+
+    background:
+        rgba(0,0,0,0.10) !important;
+
+    color:
+        rgba(255,255,255,0.68);
+
+    font-size: 11px;
+}
+
+
+.footer strong {
+
+    display: block;
+
+    font-size: 17px;
+
+    letter-spacing: 4px;
+
+    color: #ffffff;
+}
+
+
+.footer span {
+
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 10px;
+
+    opacity: 0.65;
+}
+
+
+.footer > div:nth-child(2) {
+
+    text-align: center;
+}
+
+
+.footer > div:nth-child(3) {
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .desktop-nav {
+
+        display: none;
+    }
+
+
+    .role-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .feature-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .about-content {
+
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+
+        padding: 40px;
+    }
+
+
+    .hero-bottom {
+
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    .scroll-text,
+    .version {
+
+        text-align: left;
+    }
+
+
+    .footer {
+
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+
+    .footer > div:nth-child(2),
+    .footer > div:nth-child(3) {
+
+        text-align: left;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .navbar {
+
+        top: 10px;
+
+        left: 15px;
+        right: 15px;
+
+        height: 60px;
+
+        padding: 0 15px;
+    }
+
+
+    .brand-name {
+
+        font-size: 13px;
+
+        letter-spacing: 3px;
+    }
+
+
+    .small-button {
+
+        display: none;
+    }
+
+
+    .hero {
+
+        padding:
+            130px
+            25px
+            35px;
+    }
+
+
+    .hero-content {
+
+        margin-top: 50px;
+    }
+
+
+    .hero h1 {
+
+        font-size: 53px;
+
+        letter-spacing: -2px;
+    }
+
+
+    .hero p {
+
+        font-size: 14px;
+    }
+
+
+    .hero-buttons {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .roles-section,
+    .features-section,
+    .about-section {
+
+        padding:
+            90px 20px;
+    }
+
+
+    .feature-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .about-content {
+
+        padding: 30px;
+
+        border-radius: 24px;
+    }
+
+
+    .role-card {
+
+        min-height: 380px;
+    }
+}

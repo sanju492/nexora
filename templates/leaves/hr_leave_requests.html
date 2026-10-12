@@ -1,0 +1,1025 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>NEXORA | HR Leave Requests</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            background:
+                url("{% static 'images/NEXORA.png' %}")
+                center center / cover
+                fixed;
+
+            color: #111;
+
+            padding: 40px;
+        }
+
+
+        .page {
+
+            max-width: 1350px;
+
+            margin: auto;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .brand h1 {
+
+            font-size: 36px;
+
+            font-weight: 800;
+
+            letter-spacing: 3px;
+        }
+
+
+        .brand p {
+
+            margin-top: 7px;
+
+            font-size: 14px;
+
+            color: #333;
+        }
+
+
+        .dashboard-btn {
+
+            text-decoration: none;
+
+            color: #111;
+
+            padding: 13px 22px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(255, 255, 255, 0.45);
+
+            backdrop-filter: blur(18px);
+
+            -webkit-backdrop-filter: blur(18px);
+
+            border:
+                1px solid rgba(255,255,255,0.75);
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.12);
+
+            font-weight: 700;
+
+            transition: 0.3s;
+        }
+
+
+        .dashboard-btn:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,0.18);
+        }
+
+
+        /* =====================================================
+           SUMMARY CARDS
+        ===================================================== */
+
+        .summary-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .summary-card {
+
+            background:
+                rgba(255,255,255,0.48);
+
+            backdrop-filter: blur(22px);
+
+            -webkit-backdrop-filter: blur(22px);
+
+            border:
+                1px solid rgba(255,255,255,0.75);
+
+            border-radius: 24px;
+
+            padding: 24px;
+
+            box-shadow:
+                0 18px 45px rgba(0,0,0,0.13);
+
+            transition: 0.3s;
+        }
+
+
+        .summary-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 22px 50px rgba(0,0,0,0.17);
+        }
+
+
+        .summary-label {
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #444;
+
+            margin-bottom: 10px;
+        }
+
+
+        .summary-number {
+
+            font-size: 32px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        .messages {
+
+            margin-bottom: 22px;
+        }
+
+
+        .message {
+
+            padding: 14px 18px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(255,255,255,0.65);
+
+            border:
+                1px solid rgba(255,255,255,0.75);
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.08);
+        }
+
+
+        /* =====================================================
+           MAIN CARD
+        ===================================================== */
+
+        .glass-card {
+
+            background:
+                rgba(255,255,255,0.48);
+
+            backdrop-filter: blur(22px);
+
+            -webkit-backdrop-filter: blur(22px);
+
+            border:
+                1px solid rgba(255,255,255,0.75);
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 20px 50px rgba(0,0,0,0.14);
+
+            padding: 30px;
+        }
+
+
+        .section-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .section-title {
+
+            font-size: 23px;
+
+            font-weight: 800;
+        }
+
+
+        .section-subtitle {
+
+            margin-top: 6px;
+
+            font-size: 13px;
+
+            color: #555;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            min-width: 1100px;
+
+            border-collapse: collapse;
+        }
+
+
+        th {
+
+            text-align: left;
+
+            padding: 16px 14px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+
+            border-bottom:
+                1px solid rgba(0,0,0,0.16);
+        }
+
+
+        td {
+
+            padding: 17px 14px;
+
+            font-size: 13px;
+
+            border-bottom:
+                1px solid rgba(0,0,0,0.08);
+
+            vertical-align: middle;
+        }
+
+
+        tbody tr {
+
+            transition: 0.25s;
+        }
+
+
+        tbody tr:hover {
+
+            background:
+                rgba(255,255,255,0.35);
+        }
+
+
+        /* =====================================================
+           HR DETAILS
+        ===================================================== */
+
+        .employee-name {
+
+            font-weight: 750;
+
+            font-size: 14px;
+        }
+
+
+        .employee-email {
+
+            margin-top: 4px;
+
+            font-size: 12px;
+
+            color: #555;
+        }
+
+
+        .employee-id {
+
+            display: inline-block;
+
+            margin-top: 5px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #444;
+        }
+
+
+        /* =====================================================
+           LEAVE TYPE
+        ===================================================== */
+
+        .leave-type {
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 7px 13px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: capitalize;
+        }
+
+
+        .pending {
+
+            background: #e52e2e;
+
+            color: #ffffff;
+        }
+
+
+        .approved {
+
+            background: #015b1b;
+
+            color: #f7fef9;
+        }
+
+
+        .rejected {
+
+            background: #ffd0d0;
+
+            color: #9b2020;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
+
+        .actions {
+
+            display: flex;
+
+            gap: 8px;
+
+            align-items: center;
+        }
+
+
+        .action-form {
+
+            margin: 0;
+        }
+
+
+        .approve-btn,
+        .reject-btn {
+
+            border: none;
+
+            padding: 9px 14px;
+
+            border-radius: 12px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+
+        .approve-btn {
+
+            background: #111;
+
+            color: #fff;
+        }
+
+
+        .approve-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 18px rgba(0,0,0,0.2);
+        }
+
+
+        .reject-btn {
+
+            background:
+                rgba(255,255,255,0.7);
+
+            color: #111;
+
+            border:
+                1px solid rgba(0,0,0,0.15);
+        }
+
+
+        .reject-btn:hover {
+
+            transform: translateY(-2px);
+
+            background: #111;
+
+            color: #fff;
+        }
+
+
+        .completed-text {
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #555;
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+
+        .empty {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: #555;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .empty-icon {
+
+            font-size: 38px;
+
+            margin-bottom: 12px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            body {
+
+                padding: 20px;
+            }
+
+
+            .summary-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 18px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .summary-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .glass-card {
+
+                padding: 20px;
+            }
+
+
+            .brand h1 {
+
+                font-size: 30px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+
+    <div class="header">
+
+        <div class="brand">
+
+            <h1>NEXORA</h1>
+
+            <p>
+                HR Leave Requests
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'manager_dashboard' %}"
+            class="dashboard-btn"
+        >
+            ← Manager Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         MESSAGES
+    ===================================================== -->
+
+    {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+                <div class="message">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         SUMMARY
+    ===================================================== -->
+
+    <div class="summary-grid">
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Pending HR Requests
+            </div>
+
+            <div class="summary-number">
+                {{ pending_count }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Approved Requests
+            </div>
+
+            <div class="summary-number">
+                {{ approved_count }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Rejected Requests
+            </div>
+
+            <div class="summary-number">
+                {{ rejected_count }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Total HR Requests
+            </div>
+
+            <div class="summary-number">
+                {{ total_count }}
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         HR LEAVE REQUESTS
+    ===================================================== -->
+
+    <div class="glass-card">
+
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    HR Leave Applications
+                </div>
+
+                <div class="section-subtitle">
+                    Review HR leave applications and
+                    approve or reject pending requests.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            HR
+                        </th>
+
+                        <th>
+                            Leave Type
+                        </th>
+
+                        <th>
+                            From Date
+                        </th>
+
+                        <th>
+                            To Date
+                        </th>
+
+                        <th>
+                            Reason
+                        </th>
+
+                        <th>
+                            Applied On
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for leave in leave_requests %}
+
+
+                    <tr>
+
+
+                        <!-- HR -->
+
+                        <td>
+
+                            <div class="employee-name">
+
+                                {{ leave.employee.user.get_full_name }}
+
+                            </div>
+
+
+                            <div class="employee-email">
+
+                                {{ leave.employee.user.email }}
+
+                            </div>
+
+
+                            <span class="employee-id">
+
+                                {{ leave.employee.employee_id }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- LEAVE TYPE -->
+
+                        <td>
+
+                            <span class="leave-type">
+
+                                {{ leave.get_leave_type_display }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- FROM -->
+
+                        <td>
+
+                            {{ leave.start_date|date:"d M Y" }}
+
+                        </td>
+
+
+                        <!-- TO -->
+
+                        <td>
+
+                            {{ leave.end_date|date:"d M Y" }}
+
+                        </td>
+
+
+                        <!-- REASON -->
+
+                        <td>
+
+                            {{ leave.reason }}
+
+                        </td>
+
+
+                        <!-- APPLIED -->
+
+                        <td>
+
+                            {{ leave.applied_on|date:"d M Y, h:i A" }}
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+
+                            {% if leave.status == 'pending' %}
+
+                                <span class="status pending">
+                                    Pending
+                                </span>
+
+
+                            {% elif leave.status == 'approved' %}
+
+                                <span class="status approved">
+                                    Approved
+                                </span>
+
+
+                            {% elif leave.status == 'rejected' %}
+
+                                <span class="status rejected">
+                                    Rejected
+                                </span>
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <!-- ACTION -->
+
+                        <td>
+
+
+                            {% if leave.status == 'pending' %}
+
+
+                                <div class="actions">
+
+
+                                    <!-- APPROVE -->
+
+                                    <form
+                                        method="POST"
+                                        action="{% url 'approve_hr_leave' leave.id %}"
+                                        class="action-form"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="approve-btn"
+                                            onclick="return confirm('Are you sure you want to approve this HR leave request?');"
+                                        >
+                                            Approve
+                                        </button>
+
+                                    </form>
+
+
+                                    <!-- REJECT -->
+
+                                    <form
+                                        method="POST"
+                                        action="{% url 'reject_hr_leave' leave.id %}"
+                                        class="action-form"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="reject-btn"
+                                            onclick="return confirm('Are you sure you want to reject this HR leave request?');"
+                                        >
+                                            Reject
+                                        </button>
+
+                                    </form>
+
+
+                                </div>
+
+
+                            {% else %}
+
+                                <span class="completed-text">
+                                    No Action
+                                </span>
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% empty %}
+
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="empty"
+                        >
+
+                            <div class="empty-icon">
+                                ◷
+                            </div>
+
+                            No HR leave requests found.
+
+                        </td>
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

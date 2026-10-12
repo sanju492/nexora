@@ -1,0 +1,1533 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NEXORA | Manager Attendance</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #111111;
+            background: #f4f4f4;
+        }
+
+        /* =========================================
+           NEXORA ORIGINAL BACKGROUND
+        ========================================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background-image:
+                url("{% static 'images/NEXORA.png' %}");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            z-index: 0;
+        }
+
+        /* No blue overlay */
+
+        .page {
+            position: relative;
+            z-index: 2;
+
+            min-height: 100vh;
+
+            padding-bottom: 80px;
+        }
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar {
+            width: calc(100% - 50px);
+
+            min-height: 76px;
+
+            margin: 25px auto 0;
+
+            padding: 0 24px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-radius: 24px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            border: 1px solid rgba(255, 255, 255, 0.35);
+
+            backdrop-filter: blur(25px);
+
+            -webkit-backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.15);
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .navbar::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 1px;
+
+            background: rgba(255, 255, 255, 0.65);
+        }
+
+        .brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            text-decoration: none;
+
+            color: #111111;
+        }
+
+        .brand-icon {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            font-size: 20px;
+
+            font-weight: 600;
+
+            background: rgba(255, 255, 255, 0.20);
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+
+            backdrop-filter: blur(15px);
+
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .brand-name {
+            font-size: 19px;
+
+            letter-spacing: 3px;
+
+            font-weight: 600;
+        }
+
+        .workspace {
+            font-size: 13px;
+
+            letter-spacing: 2px;
+
+            font-weight: 500;
+        }
+
+        .back-button {
+            padding: 12px 20px;
+
+            border-radius: 15px;
+
+            text-decoration: none;
+
+            color: #111111;
+
+            font-size: 14px;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            border: 1px solid rgba(255, 255, 255, 0.40);
+
+            backdrop-filter: blur(15px);
+
+            -webkit-backdrop-filter: blur(15px);
+
+            transition: 0.25s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.30);
+
+            transform: translateY(-2px);
+        }
+
+        /* =========================================
+           MAIN
+        ========================================= */
+
+        .container {
+            width: min(
+                1350px,
+                calc(100% - 50px)
+            );
+
+            margin: 65px auto;
+        }
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .page-header {
+            margin-bottom: 35px;
+        }
+
+        .page-label {
+            font-size: 13px;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 14px;
+
+            font-weight: 600;
+        }
+
+        .page-header h1 {
+            font-size: clamp(38px, 5vw, 58px);
+
+            font-weight: 400;
+
+            letter-spacing: -2px;
+
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            max-width: 760px;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+
+            color: #222222;
+        }
+
+        /* =========================================
+           GLASS CARD
+        ========================================= */
+
+        .glass-card {
+            position: relative;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            border: 1px solid rgba(255, 255, 255, 0.38);
+
+            border-radius: 28px;
+
+            backdrop-filter: blur(25px);
+
+            -webkit-backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.14);
+
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 1px;
+
+            background: rgba(255, 255, 255, 0.70);
+        }
+
+        /* =========================================
+           SEARCH AREA
+        ========================================= */
+
+        .section-card {
+            margin-bottom: 35px;
+
+            padding: 28px;
+        }
+
+        .section-top {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 24px;
+        }
+
+        .section-heading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            border: 1px solid rgba(255, 255, 255, 0.40);
+
+            font-size: 20px;
+        }
+
+        .section-heading h2 {
+            font-size: 22px;
+
+            font-weight: 600;
+        }
+
+        .section-heading span {
+            display: block;
+
+            font-size: 13px;
+
+            margin-top: 4px;
+
+            color: #333333;
+        }
+
+        .search-box {
+            width: 280px;
+
+            height: 45px;
+
+            padding: 0 16px;
+
+            border-radius: 14px;
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+
+            background: rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(15px);
+
+            -webkit-backdrop-filter: blur(15px);
+
+            outline: none;
+
+            font-size: 14px;
+
+            color: #111111;
+
+            transition: 0.25s ease;
+        }
+
+        .search-box::placeholder {
+            color: #333333;
+        }
+
+        .search-box:focus {
+            background: rgba(255, 255, 255, 0.30);
+
+            border-color: rgba(255, 255, 255, 0.75);
+
+            box-shadow:
+                0 0 0 3px rgba(255, 255, 255, 0.15);
+        }
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+
+            border-radius: 20px;
+
+            border: 1px solid rgba(255, 255, 255, 0.30);
+
+            background: rgba(255, 255, 255, 0.10);
+
+            backdrop-filter: blur(15px);
+
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        table {
+            width: 100%;
+
+            min-width: 1050px;
+
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        th {
+            padding: 17px 16px;
+
+            text-align: left;
+
+            font-size: 12px;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+
+            font-weight: 700;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        td {
+            padding: 17px 16px;
+
+            font-size: 14px;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.20);
+
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            transition: 0.20s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.20);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* =========================================
+           PERSON
+        ========================================= */
+
+        .person {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .person-avatar {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: rgba(255, 255, 255, 0.20);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.40);
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+        .person-name {
+            font-weight: 600;
+        }
+
+        .person-id {
+            margin-top: 3px;
+
+            font-size: 11px;
+
+            color: #444444;
+        }
+
+        /* =========================================
+           WORK MODE
+        ========================================= */
+
+        .mode-badge {
+            display: inline-flex;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.38);
+        }
+
+        /* =========================================
+           CHECK IN / OUT
+        ========================================= */
+
+        .check-in {
+            color: #15803d;
+
+            font-weight: 700;
+        }
+
+        .check-out {
+            color: #dc2626;
+
+            font-weight: 700;
+        }
+
+        .not-recorded {
+            color: #555555;
+
+            font-size: 13px;
+        }
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status {
+            display: inline-flex;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty {
+            padding: 45px 20px;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            color: #333333;
+        }
+
+        .empty-icon {
+            font-size: 32px;
+
+            margin-bottom: 12px;
+        }
+
+        /* =========================================
+           SEARCH NO RESULT
+        ========================================= */
+
+        .no-result {
+            display: none;
+
+            padding: 35px;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            color: #333333;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+            margin-top: 55px;
+
+            text-align: center;
+
+            font-size: 12px;
+
+            letter-spacing: 1px;
+
+            color: #333333;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 850px) {
+
+            .section-top {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .workspace {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                width: calc(100% - 30px);
+
+                margin-top: 15px;
+
+                padding: 0 15px;
+            }
+
+            .container {
+                width: calc(100% - 30px);
+
+                margin: 50px auto;
+            }
+
+            .brand-name {
+                font-size: 16px;
+
+                letter-spacing: 2px;
+            }
+
+            .brand-icon {
+                width: 42px;
+                height: 42px;
+            }
+
+            .back-button {
+                padding: 10px 14px;
+
+                font-size: 12px;
+            }
+
+            .section-card {
+                padding: 20px;
+            }
+
+            .page-header h1 {
+                font-size: 40px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         NEXORA ORIGINAL BACKGROUND
+    ========================================== -->
+
+    <div class="background"></div>
+
+
+    <div class="page">
+
+
+        <!-- =========================================
+             NAVBAR
+        ========================================== -->
+
+        <header class="navbar">
+
+
+            <a href="{% url 'manager_dashboard' %}"
+               class="brand">
+
+                <div class="brand-icon">
+                    N
+                </div>
+
+                <div class="brand-name">
+                    NEXORA
+                </div>
+
+            </a>
+
+
+            <div class="workspace">
+                MANAGER • ATTENDANCE
+            </div>
+
+
+            <a href="{% url 'manager_dashboard' %}"
+               class="back-button">
+
+                ← Dashboard
+
+            </a>
+
+
+        </header>
+
+
+        <!-- =========================================
+             MAIN
+        ========================================== -->
+
+        <main class="container">
+
+
+            <!-- PAGE HEADER -->
+
+            <section class="page-header">
+
+                <div class="page-label">
+                    NEXORA HRMS • MANAGER PORTAL
+                </div>
+
+                <h1>
+                    Attendance
+                </h1>
+
+                <p>
+                    Monitor employee and HR attendance history,
+                    including office and work from home check-in
+                    and check-out records.
+                </p>
+
+            </section>
+
+
+
+            <!-- =========================================
+                 EMPLOYEE ATTENDANCE
+            ========================================== -->
+
+            <section class="glass-card section-card">
+
+
+                <div class="section-top">
+
+
+                    <div class="section-heading">
+
+                        <div class="section-icon">
+                            👥
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Employee Attendance
+                            </h2>
+
+                            <span>
+                                Employee attendance history
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <input
+                        type="text"
+                        id="employeeSearch"
+                        class="search-box"
+                        placeholder="🔍 Search employee name..."
+                        autocomplete="off"
+                    >
+
+
+                </div>
+
+
+
+                {% if employee_attendance %}
+
+
+                    <div class="table-wrapper">
+
+
+                        <table id="employeeTable">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Employee
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Work Mode
+                                    </th>
+
+                                    <th>
+                                        Office / WFH
+                                    </th>
+
+                                    <th>
+                                        Check In
+                                    </th>
+
+                                    <th>
+                                        Check Out
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                {% for record in employee_attendance %}
+
+
+                                    <tr class="employee-row"
+                                        data-name="{{ record.employee.user.get_full_name|lower }}"
+                                        data-username="{{ record.employee.user.username|lower }}">
+
+
+                                        <td>
+
+                                            <div class="person">
+
+                                                <div class="person-avatar">
+
+                                                    {% if record.employee.user.first_name %}
+
+                                                        {{ record.employee.user.first_name|slice:":1"|upper }}
+
+                                                    {% else %}
+
+                                                        E
+
+                                                    {% endif %}
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <div class="person-name">
+
+                                                        {{ record.employee.user.get_full_name|default:record.employee.user.username }}
+
+                                                    </div>
+
+                                                    <div class="person-id">
+
+                                                        {{ record.employee.employee_id }}
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {{ record.date|date:"d M Y" }}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if record.work_mode == 'office' %}
+
+                                                <span class="mode-badge">
+                                                    Office
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="mode-badge">
+                                                    Work From Home
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if record.work_mode == 'office' %}
+
+                                                Office
+
+                                            {% else %}
+
+                                                WFH
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if record.check_in %}
+
+                                                <span class="check-in">
+
+                                                    {{ record.check_in|time:"h:i A" }}
+
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="not-recorded">
+                                                    —
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if record.check_out %}
+
+                                                <span class="check-out">
+
+                                                    {{ record.check_out|time:"h:i A" }}
+
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="not-recorded">
+                                                    —
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="status">
+
+                                                {{ record.get_status_display }}
+
+                                            </span>
+
+                                        </td>
+
+
+                                    </tr>
+
+
+                                {% endfor %}
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                    <div id="employeeNoResult"
+                         class="no-result">
+
+                        No employee found.
+
+                    </div>
+
+
+                {% else %}
+
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            👥
+                        </div>
+
+                        No employee attendance records available.
+
+                    </div>
+
+
+                {% endif %}
+
+
+            </section>
+
+
+
+            <!-- =========================================
+                 HR ATTENDANCE
+            ========================================== -->
+
+            <section class="glass-card section-card">
+
+
+                <div class="section-top">
+
+
+                    <div class="section-heading">
+
+                        <div class="section-icon">
+                            👤
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                HR Attendance
+                            </h2>
+
+                            <span>
+                                HR attendance history
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <input
+                        type="text"
+                        id="hrSearch"
+                        class="search-box"
+                        placeholder="🔍 Search HR name..."
+                        autocomplete="off"
+                    >
+
+
+                </div>
+
+
+
+                {% if hr_attendance %}
+
+
+                    <div class="table-wrapper">
+
+
+                        <table id="hrTable">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        HR
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Work Mode
+                                    </th>
+
+                                    <th>
+                                        Office / WFH
+                                    </th>
+
+                                    <th>
+                                        Check In
+                                    </th>
+
+                                    <th>
+                                        Check Out
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                {% for record in hr_attendance %}
+
+
+                                    <tr class="hr-row"
+                                        data-name="{{ record.employee.user.get_full_name|lower }}"
+                                        data-username="{{ record.employee.user.username|lower }}">
+
+
+                                        <td>
+
+                                            <div class="person">
+
+                                                <div class="person-avatar">
+
+                                                    {% if record.employee.user.first_name %}
+
+                                                        {{ record.employee.user.first_name|slice:":1"|upper }}
+
+                                                    {% else %}
+
+                                                        H
+
+                                                    {% endif %}
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <div class="person-name">
+
+                                                        {{ record.employee.user.get_full_name|default:record.employee.user.username }}
+
+                                                    </div>
+
+                                                    <div class="person-id">
+
+                                                        {{ record.employee.employee_id }}
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {{ record.date|date:"d M Y" }}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if record.work_mode == 'office' %}
+
+                                                <span class="mode-badge">
+                                                    Office
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="mode-badge">
+                                                    Work From Home
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if record.work_mode == 'office' %}
+
+                                                Office
+
+                                            {% else %}
+
+                                                WFH
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if record.check_in %}
+
+                                                <span class="check-in">
+
+                                                    {{ record.check_in|time:"h:i A" }}
+
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="not-recorded">
+                                                    —
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if record.check_out %}
+
+                                                <span class="check-out">
+
+                                                    {{ record.check_out|time:"h:i A" }}
+
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="not-recorded">
+                                                    —
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="status">
+
+                                                {{ record.get_status_display }}
+
+                                            </span>
+
+                                        </td>
+
+
+                                    </tr>
+
+
+                                {% endfor %}
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                    <div id="hrNoResult"
+                         class="no-result">
+
+                        No HR found.
+
+                    </div>
+
+
+                {% else %}
+
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            👤
+                        </div>
+
+                        No HR attendance records available.
+
+                    </div>
+
+
+                {% endif %}
+
+
+            </section>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="footer">
+
+                NEXORA HRMS • Manager Attendance Workspace
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+
+    <!-- =========================================
+         INSTANT SEARCH
+    ========================================== -->
+
+    <script>
+
+        /* =====================================
+           EMPLOYEE SEARCH
+        ===================================== */
+
+        const employeeSearch =
+            document.getElementById("employeeSearch");
+
+        const employeeRows =
+            document.querySelectorAll(".employee-row");
+
+        const employeeNoResult =
+            document.getElementById("employeeNoResult");
+
+
+        if (employeeSearch) {
+
+            employeeSearch.addEventListener(
+                "input",
+                function () {
+
+                    const search =
+                        this.value
+                        .toLowerCase()
+                        .trim();
+
+                    let visibleCount = 0;
+
+
+                    employeeRows.forEach(
+                        function (row) {
+
+                            const name =
+                                row.dataset.name || "";
+
+                            const username =
+                                row.dataset.username || "";
+
+                            const employeeId =
+                                row.innerText
+                                .toLowerCase();
+
+
+                            const matched =
+                                name.includes(search) ||
+                                username.includes(search) ||
+                                employeeId.includes(search);
+
+
+                            if (matched) {
+
+                                row.style.display = "";
+
+                                visibleCount++;
+
+                            } else {
+
+                                row.style.display = "none";
+
+                            }
+
+                        }
+                    );
+
+
+                    if (employeeNoResult) {
+
+                        if (
+                            search !== "" &&
+                            visibleCount === 0
+                        ) {
+
+                            employeeNoResult.style.display =
+                                "block";
+
+                        } else {
+
+                            employeeNoResult.style.display =
+                                "none";
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================
+           HR SEARCH
+        ===================================== */
+
+        const hrSearch =
+            document.getElementById("hrSearch");
+
+        const hrRows =
+            document.querySelectorAll(".hr-row");
+
+        const hrNoResult =
+            document.getElementById("hrNoResult");
+
+
+        if (hrSearch) {
+
+            hrSearch.addEventListener(
+                "input",
+                function () {
+
+                    const search =
+                        this.value
+                        .toLowerCase()
+                        .trim();
+
+                    let visibleCount = 0;
+
+
+                    hrRows.forEach(
+                        function (row) {
+
+                            const name =
+                                row.dataset.name || "";
+
+                            const username =
+                                row.dataset.username || "";
+
+                            const hrId =
+                                row.innerText
+                                .toLowerCase();
+
+
+                            const matched =
+                                name.includes(search) ||
+                                username.includes(search) ||
+                                hrId.includes(search);
+
+
+                            if (matched) {
+
+                                row.style.display = "";
+
+                                visibleCount++;
+
+                            } else {
+
+                                row.style.display = "none";
+
+                            }
+
+                        }
+                    );
+
+
+                    if (hrNoResult) {
+
+                        if (
+                            search !== "" &&
+                            visibleCount === 0
+                        ) {
+
+                            hrNoResult.style.display =
+                                "block";
+
+                        } else {
+
+                            hrNoResult.style.display =
+                                "none";
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

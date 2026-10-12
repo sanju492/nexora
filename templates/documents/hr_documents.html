@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | HR Documents</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b1220;
+            color: #f1f5f9;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 5%;
+            background: #111c30;
+            border-bottom: 1px solid #263750;
+        }
+
+        .brand {
+            font-size: 23px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #67e8f9;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid #334155;
+            padding: 10px 16px;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1250px;
+            width: 92%;
+            margin: 35px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 13px 16px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background: #172b3b;
+            border: 1px solid #31516a;
+            overflow-wrap: anywhere;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            background: #111c30;
+            border: 1px solid #263750;
+            border-radius: 14px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 950px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #263750;
+            vertical-align: top;
+        }
+
+        th {
+            color: #67e8f9;
+            background: #16243a;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        td {
+            color: #dbe4f0;
+            font-size: 14px;
+        }
+
+        .muted {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .pending {
+            background: #422d0b;
+            color: #fbbf24;
+        }
+
+        .approved {
+            background: #123c2a;
+            color: #86efac;
+        }
+
+        .rejected {
+            background: #491b25;
+            color: #fda4af;
+        }
+
+        .download-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: #06121d;
+            background: #67e8f9;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .review-form {
+            min-width: 190px;
+        }
+
+        .review-form textarea {
+            width: 100%;
+            min-height: 65px;
+            resize: vertical;
+            padding: 9px;
+            border-radius: 7px;
+            border: 1px solid #334155;
+            background: #0b1220;
+            color: #f1f5f9;
+            margin-bottom: 8px;
+            font: inherit;
+        }
+
+        .review-form button {
+            border: 0;
+            padding: 9px 11px;
+            border-radius: 7px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 4px 5px 0;
+        }
+
+        .approve-btn {
+            background: #22c55e;
+            color: #052e16;
+        }
+
+        .reject-btn {
+            background: #fb7185;
+            color: #4c0519;
+        }
+
+        .reviewed-text {
+            color: #94a3b8;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .empty-state {
+            padding: 50px 20px;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .empty-state h2 {
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 16px 4%;
+            }
+
+            .brand {
+                font-size: 19px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">NEXORA</div>
+    <a href="{% url 'home' %}" class="back-btn">← Back Home</a>
+</header>
+
+<main class="container">
+
+    <section class="page-heading">
+        <h1>Employee Documents</h1>
+        <p>
+            View documents uploaded by employees, download files,
+            and approve or reject submissions.
+        </p>
+    </section>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="table-wrapper">
+        {% if documents %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Document</th>
+                        <th>Type</th>
+                        <th>Uploaded</th>
+                        <th>Status</th>
+                        <th>File</th>
+                        <th>HR Review</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for document in documents %}
+                        <tr>
+                            <td>
+                                <strong>
+                                    {{ document.employee.get_full_name|default:document.employee.username }}
+                                </strong>
+                                <div class="muted">
+                                    {{ document.employee.email }}
+                                </div>
+                            </td>
+
+                            <td>{{ document.title }}</td>
+
+                            <td>{{ document.get_document_type_display }}</td>
+
+                            <td>{{ document.uploaded_at|date:"d M Y, h:i A" }}</td>
+
+                            <td>
+                                <span class="status {{ document.status }}">
+                                    {{ document.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <a
+                                    class="download-btn"
+                                    href="{% url 'documents:hr_download_document' document.id %}"
+                                >
+                                    Download
+                                </a>
+                            </td>
+
+                            <td>
+                                {% if document.status == "pending" %}
+                                    <form
+                                        class="review-form"
+                                        method="post"
+                                        action="{% url 'documents:review_document' document.id %}"
+                                    >
+                                        {% csrf_token %}
+
+                                        <textarea
+                                            name="remarks"
+                                            placeholder="Remarks (required for rejection)"
+                                        ></textarea>
+
+                                        <button
+                                            class="approve-btn"
+                                            type="submit"
+                                            name="action"
+                                            value="approve"
+                                        >
+                                            Approve
+                                        </button>
+
+                                        <button
+                                            class="reject-btn"
+                                            type="submit"
+                                            name="action"
+                                            value="reject"
+                                        >
+                                            Reject
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <div class="reviewed-text">
+                                        <strong>
+                                            {{ document.get_status_display }}
+                                        </strong>
+
+                                        {% if document.remarks %}
+                                            <p class="muted">
+                                                {{ document.remarks }}
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="empty-state">
+                <h2>No Documents Yet</h2>
+                <p>Employee upload pannina documents inga display aagum.</p>
+            </div>
+        {% endif %}
+    </div>
+
+</main>
+
+</body>
+</html>

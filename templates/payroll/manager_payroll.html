@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora | Manager Payroll</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: #080d18;
+            color: #f8fafc;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .brand {
+            color: #38bdf8;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .back-link {
+            color: #7dd3fc;
+            text-decoration: none;
+        }
+
+        .panel, .stat {
+            background: #111827;
+            border: 1px solid #273449;
+            border-radius: 15px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        h1, h2, h3 { margin-top: 0; }
+        h1 { font-size: 28px; }
+        h2 { font-size: 20px; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 10px;
+            overflow-wrap: anywhere;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field label {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            min-width: 0;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: #080d18;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid #38bdf8;
+            outline-offset: 1px;
+        }
+
+        .wide { grid-column: 1 / -1; }
+
+        .net-box {
+            padding: 16px;
+            border-radius: 10px;
+            background: #082f49;
+            border: 1px solid #075985;
+        }
+
+        .net-box strong {
+            color: #7dd3fc;
+            font-size: 22px;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 16px;
+            background: #0284c7;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover { background: #0369a1; }
+
+        .btn-paid { background: #047857; }
+        .btn-paid:hover { background: #065f46; }
+
+        .message {
+            padding: 13px 16px;
+            border-radius: 9px;
+            margin-bottom: 18px;
+            background: #164e63;
+            color: #cffafe;
+        }
+
+        .error {
+            background: #7f1d1d;
+            color: #fee2e2;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #273449;
+        }
+
+        th {
+            color: #7dd3fc;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #422006;
+            color: #fcd34d;
+        }
+
+        .paid {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        .section-title { margin: 28px 0 16px; }
+
+        .empty {
+            padding: 20px;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        .small-form {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .small-form select {
+            width: auto;
+            min-width: 125px;
+            padding: 9px;
+        }
+
+        @media (max-width: 760px) {
+            .stats, .form-grid { grid-template-columns: 1fr; }
+            .container { padding: 20px 12px; }
+            .panel, .stat { padding: 17px; }
+            h1 { font-size: 23px; }
+            .wide { grid-column: auto; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <header class="topbar">
+        <div>
+            <div class="brand">NEXORA</div>
+            <h1 style="margin: 10px 0 0;">Manager Payroll Management</h1>
+            <div class="subtitle">
+                Employee salary, allowances, deductions and payroll history
+            </div>
+        </div>
+
+        <a class="back-link" href="/manager/">
+            ← Back to Manager Dashboard
+        </a>
+    </header>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if error_message %}
+        <div class="message error">{{ error_message }}</div>
+    {% endif %}
+
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-label">Employees</div>
+            <div class="stat-value">{{ employee_data|length }}</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">HR Profiles</div>
+            <div class="stat-value">{{ hr_data|length }}</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Payroll Records</div>
+            <div class="stat-value">{{ payroll_count|default:"0" }}</div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Create Monthly Payroll</h2>
+        <p class="subtitle">
+            Select an employee, enter salary details and save the payroll.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="employee">Employee / HR</label>
+                    <select id="employee" name="employee" required>
+                        <option value="">Select employee</option>
+
+                        {% for person in employee_data %}
+                            <option value="{{ person.employee.pk }}">
+                                {{ person.employee.employee_id }} -
+                                {{ person.employee.user.username }}
+                            </option>
+                        {% endfor %}
+
+                        {% for person in hr_data %}
+                            <option value="{{ person.employee.pk }}">
+                                {{ person.employee.employee_id }} -
+                                {{ person.employee.user.username }} (HR)
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="month">Payroll Month</label>
+                    <input id="month" type="month" name="month"
+                           max="{{ today|date:'Y-m' }}" required>
+                </div>
+
+                <div class="field">
+                    <label for="basic_salary">Basic Salary (₹)</label>
+                    <input id="basic_salary" type="number"
+                           name="basic_salary" min="0" max="99999999.99"
+                           step="0.01" placeholder="e.g. 25000" required>
+                </div>
+
+                <div class="field">
+                    <label for="allowances">Allowances (₹)</label>
+                    <input id="allowances" type="number"
+                           name="allowances" min="0" max="99999999.99"
+                           step="0.01" value="0.00" required>
+                </div>
+
+                <div class="field">
+                    <label for="deductions">Deductions (₹)</label>
+                    <input id="deductions" type="number"
+                           name="deductions" min="0" max="99999999.99"
+                           step="0.01" value="0.00" required>
+                </div>
+
+                <div class="field">
+                    <label for="payment_status">Payment Status</label>
+                    <select id="payment_status" name="payment_status" required>
+                        <option value="pending" selected>Pending</option>
+                        <option value="paid">Paid</option>
+                    </select>
+                </div>
+
+                <div class="net-box wide">
+                    <div class="stat-label">Estimated Net Salary</div>
+                    <strong id="netSalary">₹0.00</strong>
+                    <div class="subtitle">
+                        Basic salary + allowances − deductions
+                    </div>
+                </div>
+
+                <div class="wide">
+                    <button class="btn" type="submit">Save Payroll</button>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <h2 class="section-title">Employee Payroll History</h2>
+
+    {% for person in employee_data %}
+        <section class="panel">
+            <h3>
+                {{ person.employee.user.username }}
+                <span class="subtitle">— {{ person.employee.employee_id }}</span>
+            </h3>
+
+            <p class="subtitle">
+                Designation: {{ person.employee.designation|default:"Not specified" }}
+                &nbsp; | &nbsp;
+                Experience: {{ person.experience_years }} years
+            </p>
+
+            {% if person.history %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Basic</th>
+                                <th>Allowances</th>
+                                <th>Deductions</th>
+                                <th>Net Salary</th>
+                                <th>Status</th>
+                                <th>Paid Date</th>
+                                <th>Update Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for record in person.history %}
+                            <tr>
+                                <td>{{ record.month|date:"M Y" }}</td>
+                                <td>₹{{ record.basic_salary|floatformat:2 }}</td>
+                                <td>₹{{ record.allowances|floatformat:2 }}</td>
+                                <td>₹{{ record.deductions|floatformat:2 }}</td>
+                                <td><strong>₹{{ record.net_salary|floatformat:2 }}</strong></td>
+                                <td>
+                                    <span class="badge {{ record.payment_status }}">
+                                        {{ record.get_payment_status_display }}
+                                    </span>
+                                </td>
+                                <td>{{ record.paid_on|date:"d M Y"|default:"—" }}</td>
+                                <td>
+                                    <form method="post" class="small-form"
+                                          action="{% url 'payroll:manager_payroll' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action"
+                                               value="update_status">
+                                        <input type="hidden" name="payroll_id"
+                                               value="{{ record.pk }}">
+
+                                        <select name="payment_status"
+                                                aria-label="Payment status">
+                                            <option value="pending"
+                                                {% if record.payment_status == 'pending' %}selected{% endif %}>
+                                                Pending
+                                            </option>
+                                            <option value="paid"
+                                                {% if record.payment_status == 'paid' %}selected{% endif %}>
+                                                Paid
+                                            </option>
+                                        </select>
+
+                                        <button type="submit" class="btn">
+                                            Update
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty">No payroll records available.</div>
+            {% endif %}
+        </section>
+    {% empty %}
+        <section class="panel empty">
+            No employee profiles found. Create employee profiles first.
+        </section>
+    {% endfor %}
+
+    <h2 class="section-title">HR Payroll History</h2>
+
+    {% for person in hr_data %}
+        <section class="panel">
+            <h3>
+                {{ person.employee.user.username }}
+                <span class="subtitle">— {{ person.employee.employee_id }}</span>
+            </h3>
+
+            {% if person.history %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Basic</th>
+                                <th>Allowances</th>
+                                <th>Deductions</th>
+                                <th>Net Salary</th>
+                                <th>Status</th>
+                                <th>Update Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for record in person.history %}
+                            <tr>
+                                <td>{{ record.month|date:"M Y" }}</td>
+                                <td>₹{{ record.basic_salary|floatformat:2 }}</td>
+                                <td>₹{{ record.allowances|floatformat:2 }}</td>
+                                <td>₹{{ record.deductions|floatformat:2 }}</td>
+                                <td>₹{{ record.net_salary|floatformat:2 }}</td>
+                                <td>
+                                    <span class="badge {{ record.payment_status }}">
+                                        {{ record.get_payment_status_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <form method="post" class="small-form"
+                                          action="{% url 'payroll:manager_payroll' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action"
+                                               value="update_status">
+                                        <input type="hidden" name="payroll_id"
+                                               value="{{ record.pk }}">
+
+                                        <select name="payment_status"
+                                                aria-label="Payment status">
+                                            <option value="pending"
+                                                {% if record.payment_status == 'pending' %}selected{% endif %}>
+                                                Pending
+                                            </option>
+                                            <option value="paid"
+                                                {% if record.payment_status == 'paid' %}selected{% endif %}>
+                                                Paid
+                                            </option>
+                                        </select>
+
+                                        <button type="submit" class="btn">
+                                            Update
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty">No payroll records available.</div>
+            {% endif %}
+        </section>
+    {% empty %}
+        <section class="panel empty">No HR profiles found.</section>
+    {% endfor %}
+
+</div>
+
+<script>
+    const basicInput = document.getElementById("basic_salary");
+    const allowanceInput = document.getElementById("allowances");
+    const deductionInput = document.getElementById("deductions");
+    const netOutput = document.getElementById("netSalary");
+
+    function updateNetSalary() {
+        const basic = Number(basicInput.value) || 0;
+        const allowances = Number(allowanceInput.value) || 0;
+        const deductions = Number(deductionInput.value) || 0;
+        const net = basic + allowances - deductions;
+
+        netOutput.textContent = net < 0
+            ? "Deductions exceed salary"
+            : "₹" + net.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+    }
+
+    [basicInput, allowanceInput, deductionInput].forEach(input => {
+        input.addEventListener("input", updateNetSalary);
+    });
+
+    updateNetSalary();
+</script>
+</body>
+</html>

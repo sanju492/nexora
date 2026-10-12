@@ -1,0 +1,772 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NEXORA | Leave Management</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: #111;
+            background:
+                url("{% static 'images/NEXORA.png' %}")
+                center / cover fixed no-repeat;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.12);
+            z-index: -1;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            width: 100%;
+            padding: 18px 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .nav-title {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-btn {
+            text-decoration: none;
+            color: #111;
+
+            padding: 10px 20px;
+
+            border-radius: 14px;
+
+            background: rgba(255, 255, 255, 0.35);
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+
+            backdrop-filter: blur(12px);
+
+            font-weight: 700;
+
+            transition: 0.25s;
+        }
+
+        .dashboard-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 45px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+        .page-heading h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            font-size: 15px;
+            opacity: 0.75;
+        }
+
+
+        /* =========================
+           MESSAGES
+        ========================= */
+
+        .messages {
+            margin-bottom: 25px;
+        }
+
+        .message {
+            padding: 14px 18px;
+            border-radius: 14px;
+            margin-bottom: 10px;
+
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           GLASS CARD
+        ========================= */
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.18);
+
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+
+            border: 1px solid rgba(255, 255, 255, 0.38);
+
+            border-radius: 24px;
+
+            padding: 30px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 20px 45px rgba(0, 0, 0, 0.12);
+        }
+
+        .glass-card h2 {
+            font-size: 22px;
+            margin-bottom: 22px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+
+            border-radius: 13px;
+
+            background: rgba(255, 255, 255, 0.38);
+
+            color: #111;
+
+            outline: none;
+
+            font-size: 14px;
+
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: rgba(0, 0, 0, 0.35);
+
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .apply-btn {
+            margin-top: 22px;
+
+            padding: 13px 28px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background: rgba(255, 255, 255, 0.65);
+
+            color: #111;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            border: 1px solid rgba(255, 255, 255, 0.65);
+
+            transition: 0.25s;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-2px);
+
+            background: rgba(255, 255, 255, 0.9);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* =========================
+           LEAVE TABLE
+        ========================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th {
+            text-align: left;
+
+            padding: 15px 12px;
+
+            font-size: 13px;
+
+            background: rgba(255, 255, 255, 0.25);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        td {
+            padding: 16px 12px;
+
+            font-size: 14px;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        tbody tr {
+            transition: 0.2s;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.20);
+        }
+
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-block;
+
+            padding: 7px 13px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+        .status.pending {
+            background: rgba(255, 7, 7, 0.25);
+            color: #000000;
+            border: 1px solid rgba(255, 7, 7, 0.875);
+        }
+
+        .status.approved {
+            background: rgba(0, 88, 21, 0.623);
+            color: #f4f4f4;
+            border: 1px solid rgba(40, 167, 69, 0.4);
+        }
+
+        .status.rejected {
+            background: rgba(220, 53, 69, 0.20);
+            color: #a51d2a;
+            border: 1px solid rgba(220, 53, 69, 0.4);
+        }
+
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 35px;
+
+            font-size: 14px;
+
+            opacity: 0.65;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+
+            padding: 30px;
+
+            font-size: 13px;
+
+            opacity: 0.65;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 16px 20px;
+            }
+
+            .nav-title {
+                display: none;
+            }
+
+            .container {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .page-heading h1 {
+                font-size: 28px;
+            }
+
+            .glass-card {
+                padding: 22px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <div class="brand">
+            NEXORA
+        </div>
+
+        <div class="nav-title">
+            EMPLOYEE • LEAVE MANAGEMENT
+        </div>
+
+        <a
+            href="{% url 'employee_dashboard' %}"
+            class="dashboard-btn"
+        >
+            Dashboard
+        </a>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="container">
+
+
+        <div class="page-heading">
+
+            <h1>
+                Leave Management
+            </h1>
+
+            <p>
+                Apply for leave and track your leave request status.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             MESSAGES
+        ========================= -->
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- =========================
+             APPLY LEAVE
+        ========================= -->
+
+        <section class="glass-card">
+
+            <h2>
+                Apply for Leave
+            </h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+
+                    <!-- LEAVE TYPE -->
+
+                    <div class="form-group">
+
+                        <label for="leave_type">
+                            Leave Type
+                        </label>
+
+                        <select
+                            id="leave_type"
+                            name="leave_type"
+                            required
+                        >
+
+                            <option value="">
+                                Select Leave Type
+                            </option>
+
+                            <option value="casual">
+                                Casual Leave
+                            </option>
+
+                            <option value="sick">
+                                Sick Leave
+                            </option>
+
+                            <option value="earned">
+                                Earned Leave
+                            </option>
+
+                            <option value="unpaid">
+                                Unpaid Leave
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- FROM DATE -->
+
+                    <div class="form-group">
+
+                        <label for="start_date">
+                            From Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="start_date"
+                            name="start_date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- TO DATE -->
+
+                    <div class="form-group">
+
+                        <label for="end_date">
+                            To Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="end_date"
+                            name="end_date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- REASON -->
+
+                    <div class="form-group full">
+
+                        <label for="reason">
+                            Reason
+                        </label>
+
+                        <textarea
+                            id="reason"
+                            name="reason"
+                            placeholder="Enter your leave reason..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="apply-btn"
+                >
+                    Apply Leave
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             LEAVE HISTORY
+        ========================= -->
+
+        <section class="glass-card">
+
+            <h2>
+                My Leave Requests
+            </h2>
+
+
+            {% if leave_requests %}
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Leave Type
+                                </th>
+
+                                <th>
+                                    From Date
+                                </th>
+
+                                <th>
+                                    To Date
+                                </th>
+
+                                <th>
+                                    Reason
+                                </th>
+
+                                <th>
+                                    Applied On
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for leave in leave_requests %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ leave.get_leave_type_display }}
+                                    </td>
+
+                                    <td>
+                                        {{ leave.start_date|date:"d M Y" }}
+                                    </td>
+
+                                    <td>
+                                        {{ leave.end_date|date:"d M Y" }}
+                                    </td>
+
+                                    <td>
+                                        {{ leave.reason }}
+                                    </td>
+
+                                    <td>
+                                        {{ leave.applied_on|date:"d M Y" }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if leave.status == 'pending' %}
+
+                                            <span class="status pending">
+                                                Pending
+                                            </span>
+
+                                        {% elif leave.status == 'approved' %}
+
+                                            <span class="status approved">
+                                                Approved
+                                            </span>
+
+                                        {% elif leave.status == 'rejected' %}
+
+                                            <span class="status rejected">
+                                                Rejected
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="status pending">
+                                                {{ leave.status }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="empty">
+
+                    No leave requests yet.
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+    </main>
+
+
+    <footer>
+
+        © 2026 NEXORA — Empowering People. Simplifying Work.
+
+    </footer>
+
+
+    <!-- =========================
+         DATE VALIDATION
+    ========================= -->
+
+    <script>
+
+        const startDate =
+            document.getElementById("start_date");
+
+        const endDate =
+            document.getElementById("end_date");
+
+
+        startDate.addEventListener(
+            "change",
+            function () {
+
+                endDate.min = startDate.value;
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

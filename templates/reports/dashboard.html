@@ -1,0 +1,195 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | HR Reports</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #eaf2ff;
+            background: linear-gradient(135deg, #081225, #10294a, #07101f);
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 22px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            background: rgba(255,255,255,.06);
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #67e8f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        h1 { margin-bottom: 8px; }
+        .muted { color: #aabbd3; }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        a.button {
+            display: inline-block;
+            padding: 12px 17px;
+            border-radius: 10px;
+            background: #0891b2;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        a.button.secondary { background: #243750; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 18px;
+            margin: 25px 0;
+        }
+
+        .card, .panel {
+            background: rgba(255,255,255,.07);
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 17px;
+            padding: 22px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.15);
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: 800;
+            color: #67e8f9;
+            margin-top: 10px;
+        }
+
+        .panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .report {
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .report:last-child { border-bottom: none; }
+
+        .report a {
+            color: #67e8f9;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .empty { color: #aabbd3; padding: 12px 0; }
+
+        @media(max-width: 600px) {
+            .container { width: 92%; }
+            header { padding: 18px 4%; }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="brand">NEXORA</div>
+    <div>HR Reports Dashboard</div>
+</header>
+
+<main class="container">
+    <h1>HR Reports Dashboard</h1>
+    <p class="muted">Manage communication and review your reports.</p>
+
+    <div class="actions">
+        <a class="button" href="{% url 'reports:send_report' %}">+ Send Report</a>
+        <a class="button secondary" href="{% url 'reports:inbox_reports' %}">Inbox</a>
+        <a class="button secondary" href="{% url 'reports:sent_reports' %}">Sent Reports</a>
+    </div>
+
+    <section class="stats">
+        <div class="card">
+            <div class="muted">Total Employees</div>
+            <div class="number">{{ total_employees|default:0 }}</div>
+        </div>
+        <div class="card">
+            <div class="muted">Attendance Records</div>
+            <div class="number">{{ total_attendance|default:0 }}</div>
+        </div>
+        <div class="card">
+            <div class="muted">Leave Requests</div>
+            <div class="number">{{ total_leave_requests|default:0 }}</div>
+        </div>
+        <div class="card">
+            <div class="muted">Payroll Records</div>
+            <div class="number">{{ total_payroll_records|default:0 }}</div>
+        </div>
+        <div class="card">
+            <div class="muted">Unread Reports</div>
+            <div class="number">{{ unread_count|default:0 }}</div>
+        </div>
+    </section>
+
+    <section class="panels">
+        <div class="panel">
+            <h2>Received Reports</h2>
+            {% for report in received_reports %}
+                <div class="report">
+                    <a href="{% url 'reports:report_detail' report.id %}">
+                        {{ report.subject }}
+                    </a>
+                    <p class="muted">
+                        From: {{ report.sender.username }}<br>
+                        {{ report.created_at|date:"d M Y, h:i A" }}
+                    </p>
+                    <span>{{ report.get_status_display }}</span>
+                </div>
+            {% empty %}
+                <p class="empty">No reports received yet.</p>
+            {% endfor %}
+        </div>
+
+        <div class="panel">
+            <h2>Sent Reports</h2>
+            {% for report in sent_reports %}
+                <div class="report">
+                    <a href="{% url 'reports:report_detail' report.id %}">
+                        {{ report.subject }}
+                    </a>
+                    <p class="muted">
+                        To: {{ report.receiver.username }}<br>
+                        {{ report.created_at|date:"d M Y, h:i A" }}
+                    </p>
+                    <span>{{ report.get_status_display }}</span>
+                </div>
+            {% empty %}
+                <p class="empty">You haven't sent any reports yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+</body>
+</html>

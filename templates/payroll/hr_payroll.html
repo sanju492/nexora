@@ -1,0 +1,405 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | My HR Salary</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: #fff;
+            background:
+                linear-gradient(120deg, rgba(5,15,35,.90), rgba(8,30,55,.72)),
+                url("{% static 'images/NEXORA.png' %}") center/cover fixed no-repeat;
+            padding: 30px;
+        }
+
+        .container {
+            width: min(1250px, 100%);
+            margin: auto;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 38px;
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .brand span {
+            color: #55d6ff;
+        }
+
+        .subtitle {
+            color: #bfd1e5;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+
+        .btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.23);
+            padding: 12px 19px;
+            border-radius: 12px;
+            transition: .25s;
+        }
+
+        .btn:hover {
+            background: rgba(255,255,255,.20);
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            font-size: clamp(28px, 4vw, 38px);
+            margin-bottom: 9px;
+            font-weight: 600;
+        }
+
+        .description {
+            color: #c4d3e4;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .section-label {
+            color: #8ee4ff;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card, .table-card, .profile-card {
+            background: rgba(255,255,255,.09);
+            border: 1px solid rgba(255,255,255,.17);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 15px 40px rgba(0,0,0,.16);
+        }
+
+        .card p {
+            color: #c4d1e0;
+            font-size: 14px;
+            margin-bottom: 14px;
+        }
+
+        .card h2 {
+            font-size: clamp(23px, 3vw, 30px);
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .card small {
+            display: block;
+            color: #aebfd2;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .profile-card {
+            margin-bottom: 30px;
+        }
+
+        .profile-card h2, .table-heading {
+            font-size: 21px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .profile-item {
+            padding: 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.055);
+            border: 1px solid rgba(255,255,255,.10);
+            overflow-wrap: anywhere;
+        }
+
+        .profile-label {
+            display: block;
+            color: #aebfd2;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .profile-value {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .table-card {
+            margin-bottom: 25px;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            font-size: 14px;
+        }
+
+        th {
+            color: #8ee4ff;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        td {
+            color: #e4edf7;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            text-transform: capitalize;
+        }
+
+        .paid {
+            background: rgba(40,220,140,.15);
+            color: #70f0b4;
+        }
+
+        .pending {
+            background: rgba(255,190,50,.15);
+            color: #ffd36d;
+        }
+
+        .empty {
+            text-align: center;
+            color: #c4d1e0;
+            padding: 30px;
+            line-height: 1.8;
+        }
+
+        .notice {
+            margin-bottom: 25px;
+            padding: 17px 20px;
+            border-radius: 14px;
+            background: rgba(255,190,50,.10);
+            border: 1px solid rgba(255,190,50,.25);
+            color: #ffe1a0;
+            line-height: 1.7;
+        }
+
+        .footer {
+            text-align: center;
+            color: #aebfd2;
+            font-size: 12px;
+            padding: 18px 0;
+        }
+
+        @media(max-width: 850px) {
+            .stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .profile-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media(max-width: 600px) {
+            body {
+                padding: 18px;
+            }
+
+            .stats, .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card, .table-card, .profile-card {
+                padding: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <header class="topbar">
+        <div>
+            <div class="brand">NEXORA<span>.</span></div>
+            <p class="subtitle">Empowering People. Simplifying Work.</p>
+        </div>
+
+        <a class="btn" href="/">← Home</a>
+    </header>
+
+    <p class="section-label">Human Resources / Salary</p>
+    <h1>My Salary Dashboard</h1>
+    <p class="description">
+        View your salary details, monthly payroll history and payment status.
+    </p>
+
+    {% if employee %}
+
+        <section class="profile-card">
+            <h2>My Employment Details</h2>
+
+            <div class="profile-grid">
+                <div class="profile-item">
+                    <span class="profile-label">Employee ID</span>
+                    <span class="profile-value">
+                        {{ employee.employee_id|default:"Not assigned" }}
+                    </span>
+                </div>
+
+                <div class="profile-item">
+                    <span class="profile-label">Name</span>
+                    <span class="profile-value">
+                        {{ employee.user.get_full_name|default:employee.user.username }}
+                    </span>
+                </div>
+
+                <div class="profile-item">
+                    <span class="profile-label">Designation</span>
+                    <span class="profile-value">
+                        {{ employee.designation|default:"Not assigned" }}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="card">
+                <p>My Basic Salary</p>
+                <h2>
+                    {% if employee.salary %}
+                        ₹{{ employee.salary|floatformat:2 }}
+                    {% else %}
+                        Not Set
+                    {% endif %}
+                </h2>
+                <small>Based on your employee profile</small>
+            </div>
+
+            <div class="card">
+                <p>Total Salary Paid</p>
+                <h2>₹{{ total_paid|floatformat:2 }}</h2>
+                <small>Total of payroll records marked Paid</small>
+            </div>
+
+            <div class="card">
+                <p>Pending Salary</p>
+                <h2>₹{{ pending_total|floatformat:2 }}</h2>
+                <small>Total of payroll records marked Pending</small>
+            </div>
+        </section>
+
+        <section class="table-card">
+            <h2 class="table-heading">My Monthly Salary History</h2>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Basic Salary</th>
+                            <th>Allowances</th>
+                            <th>Deductions</th>
+                            <th>Net Salary</th>
+                            <th>Status</th>
+                            <th>Paid On</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for record in payroll_records %}
+                        <tr>
+                            <td>{{ record.month|date:"F Y" }}</td>
+                            <td>₹{{ record.basic_salary|floatformat:2 }}</td>
+                            <td>₹{{ record.allowances|floatformat:2 }}</td>
+                            <td>₹{{ record.deductions|floatformat:2 }}</td>
+                            <td>₹{{ record.net_salary|floatformat:2 }}</td>
+                            <td>
+                                <span class="status {{ record.payment_status }}">
+                                    {{ record.get_payment_status_display }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if record.paid_on %}
+                                    {{ record.paid_on|date:"d M Y" }}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="empty">
+                                No salary records are available yet.<br>
+                                Please contact the payroll administrator.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    {% else %}
+
+        <div class="notice">
+            Your HR employee profile has not been created yet, so salary details
+            cannot be displayed. Please contact the administrator.
+        </div>
+
+    {% endif %}
+
+    <footer class="footer">
+        NEXORA HRMS · Confidential Salary Information
+    </footer>
+
+</div>
+</body>
+</html>

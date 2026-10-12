@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NEXORA | HR Registration</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: white;
+
+            background-image:
+                url("/static/images/NEXORA.png");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-attachment: fixed;
+
+            padding: 45px 20px;
+        }
+
+
+        .container {
+
+            width: 100%;
+
+            max-width: 850px;
+
+            margin: auto;
+        }
+
+
+        /* HEADER */
+
+        .brand {
+
+            text-align: center;
+
+            font-size: 13px;
+
+            letter-spacing: 5px;
+
+            color:
+                rgba(255,255,255,0.75);
+
+            margin-bottom: 12px;
+        }
+
+
+        h1 {
+
+            text-align: center;
+
+            font-size: 44px;
+
+            font-weight: 400;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color:
+                rgba(255,255,255,0.68);
+
+            font-size: 15px;
+
+            margin-bottom: 32px;
+        }
+
+
+        /* GLASS CARD */
+
+        .register-card {
+
+            padding: 35px;
+
+            border-radius: 30px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,0.20),
+                    rgba(255,255,255,0.08)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.32);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255,255,255,0.38),
+
+                inset 0 -1px 0
+                rgba(0,0,0,0.12),
+
+                0 25px 70px
+                rgba(0,0,0,0.30);
+
+            backdrop-filter:
+                blur(18px)
+                saturate(150%);
+
+            -webkit-backdrop-filter:
+                blur(18px)
+                saturate(150%);
+        }
+
+
+        /* FORM GRID */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .full {
+
+            grid-column:
+                1 / -1;
+        }
+
+
+        .field {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+
+        .field label {
+
+            font-size: 13px;
+
+            color:
+                rgba(255,255,255,0.72);
+        }
+
+
+        .field input,
+        .field select,
+        .field textarea {
+
+            width: 100%;
+
+            border: 1px solid
+                rgba(255,255,255,0.22);
+
+            outline: none;
+
+            color: white;
+
+            background:
+                rgba(255,255,255,0.10);
+
+            border-radius: 16px;
+
+            font-size: 14px;
+
+            padding: 0 16px;
+
+            transition: 0.3s;
+
+            box-shadow:
+                inset 0 1px 0
+                rgba(255,255,255,0.14);
+        }
+
+
+        .field input,
+        .field select {
+
+            height: 52px;
+        }
+
+
+        .field textarea {
+
+            min-height: 110px;
+
+            padding-top: 15px;
+
+            resize: vertical;
+        }
+
+
+        .field input::placeholder,
+        .field textarea::placeholder {
+
+            color:
+                rgba(255,255,255,0.45);
+        }
+
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+
+            border-color:
+                rgba(255,255,255,0.50);
+
+            background:
+                rgba(255,255,255,0.15);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(255,255,255,0.06);
+        }
+
+
+        .field select option {
+
+            color: #111;
+
+            background: white;
+        }
+
+
+        /* REGISTER BUTTON */
+
+        .register-btn {
+
+            width: 100%;
+
+            height: 55px;
+
+            margin-top: 25px;
+
+            border-radius: 999px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.35);
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,0.28),
+                    rgba(255,255,255,0.12)
+                );
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255,255,255,0.40),
+
+                0 10px 25px
+                rgba(0,0,0,0.18);
+
+            transition: 0.3s;
+        }
+
+
+        .register-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                rgba(255,255,255,0.24);
+
+            box-shadow:
+
+                inset 0 1px 0
+                rgba(255,255,255,0.45),
+
+                0 15px 30px
+                rgba(0,0,0,0.25);
+        }
+
+
+        /* BOTTOM LINKS */
+
+        .login-link {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color:
+                rgba(255,255,255,0.65);
+
+            font-size: 14px;
+        }
+
+
+        .login-link a {
+
+            color: white;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+
+        .login-link a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        .back {
+
+            text-align: center;
+
+            margin-top: 18px;
+        }
+
+
+        .back a {
+
+            color:
+                rgba(255,255,255,0.60);
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+
+        .back a:hover {
+
+            color: white;
+        }
+
+
+        /* DJANGO MESSAGES */
+
+        .messages {
+
+            margin-bottom: 20px;
+        }
+
+
+        .message {
+
+            padding: 14px 18px;
+
+            border-radius: 16px;
+
+            margin-bottom: 10px;
+
+            background:
+                rgba(255,255,255,0.10);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.20);
+
+            color: white;
+
+            backdrop-filter:
+                blur(15px);
+
+            -webkit-backdrop-filter:
+                blur(15px);
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width: 650px) {
+
+            body {
+
+                padding: 25px 15px;
+            }
+
+            .register-card {
+
+                padding: 25px 20px;
+            }
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+
+                grid-column: auto;
+            }
+
+            h1 {
+
+                font-size: 34px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="brand">
+        NEXORA HRMS
+    </div>
+
+
+    <h1>
+        HR Registration
+    </h1>
+
+
+    <p class="subtitle">
+        Create your HR account and wait for manager approval.
+    </p>
+
+
+    <!-- DJANGO MESSAGES -->
+
+    {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+                <div class="message">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="register-card">
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-grid">
+
+
+                <!-- FIRST NAME -->
+
+                <div class="field">
+
+                    <label>
+                        First Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="first_name"
+                        placeholder="Enter first name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- LAST NAME -->
+
+                <div class="field">
+
+                    <label>
+                        Last Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="last_name"
+                        placeholder="Enter last name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="field">
+
+                    <label>
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Create username"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="field">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="field">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Enter phone number"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESIGNATION -->
+
+                <div class="field">
+
+                    <label>
+                        Designation
+                    </label>
+
+                    <input
+                        type="text"
+                        name="designation"
+                        placeholder="Example: HR Executive"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- JOINING DATE -->
+
+                <div class="field">
+
+                    <label>
+                        Joining Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="joining_date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- GENDER -->
+
+                <div class="field">
+
+                    <label>
+                        Gender
+                    </label>
+
+                    <select name="gender">
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option value="male">
+                            Male
+                        </option>
+
+                        <option value="female">
+                            Female
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DATE OF BIRTH -->
+
+                <div class="field">
+
+                    <label>
+                        Date of Birth
+                    </label>
+
+                    <input
+                        type="date"
+                        name="date_of_birth"
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="field">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Create password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="field">
+
+                    <label>
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="confirm_password"
+                        placeholder="Confirm password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ADDRESS -->
+
+                <div class="field full">
+
+                    <label>
+                        Address
+                    </label>
+
+                    <textarea
+                        name="address"
+                        placeholder="Enter your address"
+                    ></textarea>
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="register-btn"
+            >
+                Create HR Account →
+            </button>
+
+
+        </form>
+
+
+        <div class="login-link">
+
+            Already have an HR account?
+
+            <a href="{% url 'hr_login' %}">
+                Login here
+            </a>
+
+        </div>
+
+
+        <div class="back">
+
+            <a href="{% url 'home' %}">
+                ← Back to NEXORA
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,828 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NEXORA | Employee Registration</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: #ffffff;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================
+           BACKGROUND
+        ===================================== */
+
+        .background {
+            position: fixed;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background-image:
+                url("{% static 'images/NEXORA.png' %}");
+
+            background-size: cover;
+            background-position: center;
+
+            z-index: -2;
+        }
+
+
+        .background-overlay {
+            position: fixed;
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(5, 15, 30, 0.48),
+                    rgba(10, 25, 45, 0.30)
+                );
+
+            backdrop-filter: blur(2px);
+
+            z-index: -1;
+        }
+
+
+        /* =====================================
+           PAGE
+        ===================================== */
+
+        .page {
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 50px 20px;
+        }
+
+
+        /* =====================================
+           REGISTER CARD
+        ===================================== */
+
+        .register-card {
+            width: 100%;
+
+            max-width: 720px;
+
+            padding: 42px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.25);
+
+            backdrop-filter: blur(25px);
+
+            -webkit-backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.35);
+        }
+
+
+        /* =====================================
+           LOGO
+        ===================================== */
+
+        .logo {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .logo-symbol {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.30);
+
+            font-size: 20px;
+
+            font-weight: 600;
+        }
+
+
+        .logo-name {
+            font-size: 20px;
+
+            letter-spacing: 5px;
+
+            font-weight: 500;
+        }
+
+
+        /* =====================================
+           HEADING
+        ===================================== */
+
+        .heading {
+            margin-bottom: 28px;
+        }
+
+
+        .heading span {
+            display: block;
+
+            font-size: 12px;
+
+            letter-spacing: 3px;
+
+            opacity: 0.70;
+
+            margin-bottom: 10px;
+        }
+
+
+        .heading h1 {
+            font-size: 36px;
+
+            font-weight: 400;
+
+            margin-bottom: 10px;
+        }
+
+
+        .heading p {
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            opacity: 0.75;
+        }
+
+
+        /* =====================================
+           MESSAGES
+        ===================================== */
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+
+        .message {
+            padding: 12px 15px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.20);
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* =====================================
+           FORM
+        ===================================== */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 18px;
+        }
+
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+
+        .form-group label {
+            font-size: 12px;
+
+            letter-spacing: 0.5px;
+
+            opacity: 0.82;
+        }
+
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+
+            border-radius: 13px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.22);
+
+            outline: none;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            font-family: inherit;
+
+            transition: 0.25s ease;
+        }
+
+
+        .form-group input,
+        .form-group select {
+            height: 48px;
+
+            padding: 0 15px;
+        }
+
+
+        .form-group textarea {
+            min-height: 100px;
+
+            padding: 14px 15px;
+
+            resize: vertical;
+        }
+
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color:
+                rgba(255, 255, 255, 0.50);
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color:
+                rgba(255, 255, 255, 0.55);
+
+            background:
+                rgba(255, 255, 255, 0.13);
+
+            box-shadow:
+                0 0 0 3px rgba(255, 255, 255, 0.06);
+        }
+
+
+        /* =====================================
+           REGISTER BUTTON
+        ===================================== */
+
+        .register-button {
+            width: 100%;
+
+            height: 52px;
+
+            margin-top: 25px;
+
+            border-radius: 16px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.35);
+
+            background:
+                rgba(255, 255, 255, 0.18);
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            cursor: pointer;
+
+            backdrop-filter: blur(15px);
+
+            transition: 0.3s ease;
+        }
+
+
+        .register-button:hover {
+            background:
+                rgba(255, 255, 255, 0.28);
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.20);
+        }
+
+
+        .register-button:active {
+            transform: translateY(0);
+        }
+
+
+        /* =====================================
+           APPROVAL NOTE
+        ===================================== */
+
+        .approval-note {
+            margin-top: 20px;
+
+            padding: 14px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.14);
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            color:
+                rgba(255, 255, 255, 0.72);
+        }
+
+
+        /* =====================================
+           BOTTOM LINKS
+        ===================================== */
+
+        .bottom-links {
+            text-align: center;
+
+            margin-top: 24px;
+
+            font-size: 13px;
+
+            color:
+                rgba(255, 255, 255, 0.70);
+        }
+
+
+        .bottom-links a {
+            color: #ffffff;
+
+            text-decoration: none;
+        }
+
+
+        .bottom-links a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 650px) {
+
+            .page {
+                padding: 25px 15px;
+            }
+
+
+            .register-card {
+                padding: 28px 20px;
+
+                border-radius: 22px;
+            }
+
+
+            .heading h1 {
+                font-size: 30px;
+            }
+
+
+            .form-grid {
+                grid-template-columns: 1fr;
+
+                gap: 16px;
+            }
+
+
+            .full-width {
+                grid-column: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- BACKGROUND -->
+
+    <div class="background"></div>
+
+    <div class="background-overlay"></div>
+
+
+    <main class="page">
+
+
+        <div class="register-card">
+
+
+            <!-- LOGO -->
+
+            <div class="logo">
+
+                <div class="logo-symbol">
+                    N
+                </div>
+
+                <div class="logo-name">
+                    NEXORA
+                </div>
+
+            </div>
+
+
+            <!-- HEADING -->
+
+            <div class="heading">
+
+                <span>
+                    EMPLOYEE ACCESS
+                </span>
+
+                <h1>
+                    Create your account.
+                </h1>
+
+                <p>
+                    Register as a NEXORA employee and
+                    join your organization's workspace.
+                </p>
+
+            </div>
+
+
+            <!-- MESSAGES -->
+
+            {% if messages %}
+
+                <div class="messages">
+
+                    {% for message in messages %}
+
+                        <div class="message">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- REGISTER FORM -->
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-grid">
+
+
+                    <!-- FIRST NAME -->
+
+                    <div class="form-group">
+
+                        <label>
+                            First Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="first_name"
+                            placeholder="Enter first name"
+                            required>
+
+                    </div>
+
+
+                    <!-- LAST NAME -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Last Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="last_name"
+                            placeholder="Enter last name">
+
+                    </div>
+
+
+                    <!-- USERNAME -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Username *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Choose username"
+                            required>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Email *
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="example@email.com"
+                            required>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            name="phone"
+                            placeholder="Enter phone number">
+
+                    </div>
+
+
+                    <!-- DESIGNATION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Designation *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="designation"
+                            placeholder="e.g. Software Developer"
+                            required>
+
+                    </div>
+
+
+                    <!-- JOINING DATE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Joining Date *
+                        </label>
+
+                        <input
+                            type="date"
+                            name="joining_date"
+                            required>
+
+                    </div>
+
+
+                    <!-- GENDER -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Gender
+                        </label>
+
+                        <select name="gender">
+
+                            <option value="">
+                                Select Gender
+                            </option>
+
+                            <option value="male">
+                                Male
+                            </option>
+
+                            <option value="female">
+                                Female
+                            </option>
+
+                            <option value="other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DATE OF BIRTH -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Date of Birth
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date_of_birth">
+
+                    </div>
+
+
+                    <!-- ADDRESS -->
+
+                    <div class="form-group full-width">
+
+                        <label>
+                            Address
+                        </label>
+
+                        <textarea
+                            name="address"
+                            placeholder="Enter your address"></textarea>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Password *
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Create password"
+                            required>
+
+                    </div>
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Confirm Password *
+                        </label>
+
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            placeholder="Confirm password"
+                            required>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- REGISTER BUTTON -->
+
+                <button
+                    type="submit"
+                    class="register-button">
+
+                    Create Employee Account
+
+                </button>
+
+
+            </form>
+
+
+            <!-- APPROVAL NOTE -->
+
+            <div class="approval-note">
+
+                After registration, your account will remain
+                pending until it is approved by the authorized
+                NEXORA manager.
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <div class="bottom-links">
+
+                Already have an account?
+
+                <a href="{% url 'employee_login' %}">
+                    Employee Login
+                </a>
+
+            </div>
+
+
+            <!-- HOME -->
+
+            <div class="bottom-links">
+
+                <a href="/">
+                    ← Back to NEXORA
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+</body>
+
+</html>
